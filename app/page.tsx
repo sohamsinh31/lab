@@ -4,7 +4,7 @@ import type { AppProps } from 'next/app';
 import Navbar from '@/components/Navbar';
 import Sidebar from '@/components/Sidebar';
 
-export const App = () => {
+const App = () => {
   return (
     <div>
       <Navbar />
