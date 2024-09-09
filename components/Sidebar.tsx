@@ -17,10 +17,10 @@ type SidebarData = {
 const Sidebar = ({ data }: { data: SidebarData[] }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState<{ [key: string]: boolean }>({});
 
-    const toggleDropdown = (title: string) => {
+    const toggleDropdown = (label: string) => {
         setIsDropdownOpen((prevState) => ({
             ...prevState,
-            [title]: !prevState[title],
+            [label]: !prevState[label],
         }));
     };
 
