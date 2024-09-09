@@ -9,10 +9,11 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="bg-gray-800 p-4">
-            <div className="container flex justify-between items-center">
+        <nav className="bg-gray-800 p-4 min-w-full">
+            <div className=" flex justify-between items-center">
                 <div className="text-white font-bold text-lg">
                     <Link href="/"><img src="tlabs.png" width={'89px'} height={'100%'} alt="tlabs logo" /></Link>
+                    <div className=""><input type="text" name="" id="" /></div>
                 </div>
                 <div className="hidden md:flex space-x-4">
                     <Link href="/" className="text-white hover:text-gray-400">

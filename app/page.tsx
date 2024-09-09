@@ -1,14 +1,14 @@
 "use client";
 import './globals.css';
-import type { AppProps } from 'next/app';
 import Navbar from '@/components/Navbar';
 import Sidebar from '@/components/Sidebar';
+import { sidebarData } from '@/components/utils/SidebarTest';
 
 const App = () => {
   return (
-    <div>
+    <div className='container min-w-full'>
       <Navbar />
-      <Sidebar />
+      <Sidebar data={sidebarData} />
     </div>
   )
 }

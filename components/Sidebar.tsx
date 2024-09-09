@@ -1,76 +1,68 @@
 import { useState } from 'react';
 import Link from 'next/link';
 
-const Sidebar = () => {
-    const [isDropdownOpen, setIsDropdownOpen] = useState({
-        services: false,
-        tools: false,
-    });
+// Example Sidebar data type
+type SidebarData = {
+    title: string;
+    links: {
+        label: string;
+        href: string;
+        dropdown?: {
+            label: string;
+            href: string;
+        }[];
+    }[];
+};
 
-    const toggleDropdown = (dropdown: string) => {
-        setIsDropdownOpen((prevState: any) => ({
+const Sidebar = ({ data }: { data: SidebarData[] }) => {
+    const [isDropdownOpen, setIsDropdownOpen] = useState<{ [key: string]: boolean }>({});
+
+    const toggleDropdown = (title: string) => {
+        setIsDropdownOpen((prevState) => ({
             ...prevState,
-            [dropdown]: !prevState[dropdown],
+            [title]: !prevState[title],
         }));
     };
 
     return (
         <div className="w-64 bg-slate-900 h-screen flex flex-col">
-            <div className="text-white text-2xl font-bold p-4">
-                <Link href="/">Services</Link>
-            </div>
+            {data.map((section) => (
+                <div key={section.title}>
+                    {/* Section Title */}
+                    <div className="text-white text-2xl font-bold p-4">
+                        {section.title}
+                    </div>
 
-            <nav className="flex-grow">
-                <ul className="space-y-2">
-                    {/* Dashboard Link */}
-                    <li className="text-gray-300 hover:bg-gray-700 p-4">
-                        <Link href="/">Dashboard</Link>
-                    </li>
-
-                    {/* Services Dropdown */}
-                    <li className="text-gray-300 hover:bg-gray-700 p-4 cursor-pointer" onClick={() => toggleDropdown('services')}>
-                        <div className="flex justify-between items-center">
-                            <span>Services</span>
-                            <span>{isDropdownOpen.services ? '-' : '+'}</span>
-                        </div>
-                        {isDropdownOpen.services && (
-                            <ul className="ml-4 mt-2 space-y-2">
-                                <li className="hover:bg-gray-700 p-2">
-                                    <Link href="/ec2">EC2</Link>
+                    {/* Links */}
+                    <nav className="flex-grow">
+                        <ul className="space-y-2">
+                            {section.links.map((link) => (
+                                <li key={link.label} className="text-gray-300 hover:bg-gray-700 p-4">
+                                    {!link.dropdown ? (
+                                        <Link href={link.href}>{link.label}</Link>
+                                    ) : (
+                                        <div className="cursor-pointer" onClick={() => toggleDropdown(link.label)}>
+                                            <div className="flex justify-between items-center">
+                                                <span>{link.label}</span>
+                                                <span>{isDropdownOpen[link.label] ? '-' : '+'}</span>
+                                            </div>
+                                            {isDropdownOpen[link.label] && (
+                                                <ul className="ml-4 mt-2 space-y-2">
+                                                    {link.dropdown.map((dropdownItem) => (
+                                                        <li key={dropdownItem.label} className="hover:bg-gray-700 p-2">
+                                                            <Link href={dropdownItem.href}>{dropdownItem.label}</Link>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            )}
+                                        </div>
+                                    )}
                                 </li>
-                                <li className="hover:bg-gray-700 p-2">
-                                    <Link href="/s3">S3</Link>
-                                </li>
-                                <li className="hover:bg-gray-700 p-2">
-                                    <Link href="/rds">RDS</Link>
-                                </li>
-                            </ul>
-                        )}
-                    </li>
-
-                    {/* Tools Dropdown */}
-                    <li className="text-gray-300 hover:bg-gray-700 p-4 cursor-pointer" onClick={() => toggleDropdown('tools')}>
-                        <div className="flex justify-between items-center">
-                            <span>Tools</span>
-                            <span>{isDropdownOpen.tools ? '-' : '+'}</span>
-                        </div>
-                        {isDropdownOpen.tools && (
-                            <ul className="ml-4 mt-2 space-y-2">
-                                <li className="hover:bg-gray-700 p-2">
-                                    <Link href="/cloudwatch">CloudWatch</Link>
-                                </li>
-                                <li className="hover:bg-gray-700 p-2">
-                                    <Link href="/iam">IAM</Link>
-                                </li>
-                            </ul>
-                        )}
-                    </li>
-
-                    <li className="text-gray-300 hover:bg-gray-700 p-4">
-                        <Link href="/billing">Billing</Link>
-                    </li>
-                </ul>
-            </nav>
+                            ))}
+                        </ul>
+                    </nav>
+                </div>
+            ))}
         </div>
     );
 };
