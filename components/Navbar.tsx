@@ -1,33 +1,104 @@
 import { useState } from 'react';
 import Link from 'next/link';
 
-const Navbar = () => {
+// Example Navbar data type
+type NavbarData = {
+    label: string;
+    href: string;
+    dropdown?: {
+        label: string;
+        href: string;
+    }[];
+};
+
+const Navbar = ({ data }: { data: NavbarData[] }) => {
     const [isOpen, setIsOpen] = useState(false);
+    const [dropdownOpen, setDropdownOpen] = useState<{ [key: string]: boolean }>({});
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
     };
 
+    const toggleDropdown = (label: string) => {
+        setDropdownOpen((prevState) => ({
+            ...prevState,
+            [label]: !prevState[label],
+        }));
+    };
+
     return (
         <nav className="bg-gray-800 p-4 min-w-full">
-            <div className=" flex justify-between items-center">
+            <div className="flex justify-between items-center">
                 <div className="text-white font-bold text-lg">
-                    <Link href="/"><img src="tlabs.png" width={'89px'} height={'100%'} alt="tlabs logo" /></Link>
-                    <div className=""><input type="text" name="" id="" /></div>
+                    <Link href="/">
+                        <img src="tlabs.png" width={'89px'} height={'100%'} alt="tlabs logo" />
+                    </Link>
                 </div>
                 <div className="hidden md:flex space-x-4">
-                    <Link href="/" className="text-white hover:text-gray-400">
-                        Home
-                    </Link>
-                    <Link href="/about" className="text-white hover:text-gray-400">
-                        About
-                    </Link>
-                    <Link href="/services" className="text-white hover:text-gray-400">
-                        Services
-                    </Link>
-                    <Link href="/contact" className="text-white hover:text-gray-400">
-                        Contact
-                    </Link>
+                    {data.map((item) => (
+                        <div key={item.label} className="relative group">
+                            {!item.dropdown ? (
+                                <Link href={item.href} className="text-white hover:text-gray-400">
+                                    {item.label}
+                                </Link>
+                            ) : (
+                                <div>
+                                    <button
+                                        className="text-white hover:text-gray-400 flex items-center"
+                                        onClick={() => toggleDropdown(item.label)}
+                                    >
+                                        {item.label}
+                                        <span className="ml-2">
+                                            {dropdownOpen[item.label] ? (
+                                                <svg
+                                                    className="w-4 h-4"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeWidth={2}
+                                                        d="M5 15l7-7 7 7"
+                                                    />
+                                                </svg>
+                                            ) : (
+                                                <svg
+                                                    className="w-4 h-4"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeWidth={2}
+                                                        d="M19 9l-7 7-7-7"
+                                                    />
+                                                </svg>
+                                            )}
+                                        </span>
+                                    </button>
+                                    {dropdownOpen[item.label] && (
+                                        <div className="absolute mt-2 bg-gray-700 rounded-md shadow-lg z-10">
+                                            <ul className="py-2">
+                                                {item.dropdown.map((dropdownItem) => (
+                                                    <li key={dropdownItem.label} className="hover:bg-gray-600 p-2">
+                                                        <Link href={dropdownItem.href} className="block text-white hover:text-gray-400">
+                                                            {dropdownItem.label}
+                                                        </Link>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    ))}
                 </div>
                 <div className="md:hidden flex items-center">
                     <button
@@ -55,18 +126,70 @@ const Navbar = () => {
             {/* Mobile Menu */}
             {isOpen && (
                 <div className="md:hidden bg-gray-700 flex flex-col space-y-2 mt-2 p-4">
-                    <Link href="/" className="text-white hover:text-gray-400">
-                        Home
-                    </Link>
-                    <Link href="/about" className="text-white hover:text-gray-400">
-                        About
-                    </Link>
-                    <Link href="/services" className="text-white hover:text-gray-400">
-                        Services
-                    </Link>
-                    <Link href="/contact" className="text-white hover:text-gray-400">
-                        Contact
-                    </Link>
+                    {data.map((item) => (
+                        <div key={item.label} className="relative">
+                            {!item.dropdown ? (
+                                <Link href={item.href} className="text-white hover:text-gray-400">
+                                    {item.label}
+                                </Link>
+                            ) : (
+                                <div>
+                                    <button
+                                        className="text-white hover:text-gray-400 flex items-center"
+                                        onClick={() => toggleDropdown(item.label)}
+                                    >
+                                        {item.label}
+                                        <span className="ml-2">
+                                            {dropdownOpen[item.label] ? (
+                                                <svg
+                                                    className="w-4 h-4"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeWidth={2}
+                                                        d="M5 15l7-7 7 7"
+                                                    />
+                                                </svg>
+                                            ) : (
+                                                <svg
+                                                    className="w-4 h-4"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeWidth={2}
+                                                        d="M19 9l-7 7-7-7"
+                                                    />
+                                                </svg>
+                                            )}
+                                        </span>
+                                    </button>
+                                    {dropdownOpen[item.label] && (
+                                        <div className="bg-gray-700 p-2 rounded-md shadow-lg z-10">
+                                            <ul className="space-y-2">
+                                                {item.dropdown.map((dropdownItem) => (
+                                                    <li key={dropdownItem.label} className="hover:bg-gray-600 p-2">
+                                                        <Link href={dropdownItem.href} className="text-white hover:text-gray-400">
+                                                            {dropdownItem.label}
+                                                        </Link>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    ))}
                 </div>
             )}
         </nav>

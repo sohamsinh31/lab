@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+
+* {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: large;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -9,7 +15,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #13021f;
     --foreground: #ededed;
   }
 }
@@ -17,7 +23,7 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Geist;
 }
 
 @layer utilities {

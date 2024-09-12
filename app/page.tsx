@@ -2,13 +2,18 @@
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import Sidebar from '@/components/Sidebar';
-import { sidebarData } from '@/components/utils/SidebarTest';
+import { navbarData } from '@/components/utils/NavbarTestData';
+import { sidebarData } from '@/components/utils/SidebarTestData';
+import DashboardRoute from './Routes/Dashboard';
 
 const App = () => {
   return (
     <div className='container min-w-full'>
-      <Navbar />
-      <Sidebar data={sidebarData} />
+      <Navbar data={navbarData} />
+      <div className='flex'>
+        <Sidebar data={sidebarData} />
+        <DashboardRoute />
+      </div>
     </div>
   )
 }
