@@ -1,9 +1,9 @@
-const CardFD = () => {
+const CardFA = () => {
     return (
-        <div className="max-w-[100px] border rounded-md p-4">
+        <div className="max-w-[100px] border-[0.5px] rounded-md p-4">
             Hii
         </div>
     )
 }
 
-export default CardFD;
+export default CardFA;

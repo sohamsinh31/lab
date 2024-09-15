@@ -10,7 +10,7 @@ const App = () => {
   return (
     <div className='container min-w-full'>
       <Navbar data={navbarData} />
-      <div className='flex'>
+      <div className='flex min-w-[100vh]'>
         <Sidebar data={sidebarData} />
         <DashboardRoute />
       </div>
