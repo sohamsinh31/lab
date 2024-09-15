@@ -31,9 +31,10 @@ const Navbar = ({ data }: { data: NavbarData[] }) => {
             <div className="flex justify-between items-center">
                 <div className="text-white font-bold text-lg">
                     <Link href="/">
-                        <img src="tlabs.png" width={'89px'} height={'100%'} alt="tlabs logo" />
+                        <img src="tlabs.png" width={'75px'} height={'100%'} alt="tlabs logo" />
                     </Link>
                 </div>
+                <div><input className='p-0.5 px-3 ms-[15%] w-[55vh] bg-transparent border rounded-md' type="text" name="search" id="" placeholder='Search here' /></div>
                 <div className="hidden md:flex space-x-4">
                     {data.map((item) => (
                         <div key={item.label} className="relative group">
@@ -87,7 +88,7 @@ const Navbar = ({ data }: { data: NavbarData[] }) => {
                                             <ul className="py-2">
                                                 {item.dropdown.map((dropdownItem) => (
                                                     <li key={dropdownItem.label} className="hover:bg-gray-600 p-2">
-                                                        <Link href={dropdownItem.href} className="block text-white hover:text-gray-400">
+                                                        <Link key={dropdownItem.label} href={dropdownItem.href} className="block text-white hover:text-gray-400">
                                                             {dropdownItem.label}
                                                         </Link>
                                                     </li>

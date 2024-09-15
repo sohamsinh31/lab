@@ -1,4 +1,5 @@
 import { JWServer } from "../JWS/Server";
+import nookies from "nookies"
 
 export class JLogin extends JWServer {
     private static username: string;
@@ -26,6 +27,7 @@ export class JLogin extends JWServer {
 
         const result = await this.request('POST', data, true);
         if (result) {
+            nookies.set(null, 'username', data.username, { maxAge: 30 * 60 * 3600, path: "/" })
             console.log('Login successful:', result);
         } else {
             console.error('Login failed:', this.error.message);

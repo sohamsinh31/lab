@@ -1,6 +1,6 @@
+import { User } from "../services/CookieData";
+
 export const navbarData = [
-    { label: 'Home', href: '/' },
-    { label: 'About', href: '/about' },
     {
         label: 'Services',
         href: '#',
@@ -9,5 +9,10 @@ export const navbarData = [
             { label: 'Cloud Solutions', href: '/services/cloud' },
         ],
     },
-    { label: 'Contact', href: '/contact' },
+    User.username ? {
+        label: User.username, href: '#', dropdown: [
+            { label: 'Manage', href: '#' },
+            { label: 'LogOut', href: '#' },
+        ]
+    } : null,
 ];

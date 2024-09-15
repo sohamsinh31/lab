@@ -6,12 +6,13 @@ import SCard from "../ui/Cards/SCard";
 import MemoryIcon from '@mui/icons-material/Memory';
 import ScienceIcon from '@mui/icons-material/Science';
 import WatchIcon from '@mui/icons-material/Watch';
+import { User } from "../services/CookieData";
 
 const icostyle = {
     default: {
-        width: '62px',
-        height: '62px',
-        borderRadius: '14px',
+        width: '6vh',
+        height: '6vh',
+        borderRadius: '7px',
     }
 };
 
@@ -19,14 +20,14 @@ const serviceico = [
     {
         label: "Users",
         description: "Manage your users settings.",
-        styles: { background: "linear-gradient(135deg, #00C9FF 0%, #92FE9D 100%)" },
-        icon: <AccountCircleIcon style={{ ...icostyle.default }} />, // Correct the usage here
+        styles: { background: "linear-gradient(135deg, #00C9FF 0%, #92FE9D 100%)", padding: '2px' },
+        icon: <AccountCircleIcon fontSize="small" style={{ ...icostyle.default }} />, // Correct the usage here
     },
     {
         label: "Resources",
         description: "Manage your current account's billing method.",
-        styles: { background: "linear-gradient(135deg, #FF5F6D 0%, #FFC371 100%)" },
-        icon: <WarehouseIcon style={{ ...icostyle.default }} />,
+        styles: { background: "linear-gradient(135deg, #FF5F6D 0%, #FFC371 100%)", padding: '2px' },
+        icon: <WarehouseIcon fontSize="small" style={{ ...icostyle.default }} />,
     },
     {
         label: "Computes",
@@ -48,31 +49,39 @@ const serviceico = [
     }
 ];
 
+console.log(User.username)
+
 const Dashboard = () => {
     return (
         <div className="m-4">
-            <div className="columns-12 grid grid-flow-col space-x-3 p-1">
-                <div className="col-span-7 block border rounded-md border-opacity-20">
-                    <div className="text-lg p-3">Manage Cloud Services </div>
-                    <div className="m-2 p-2" style={{ borderRadius: '14px' }}>
-                        <Grid container spacing={2}>
-                            {serviceico.map((item, index) => (
-                                <SCard
-                                    key={index}
-                                    icon={React.cloneElement(item.icon, {
-                                        style: { ...icostyle.default, ...item.styles }
-                                    })}
-                                    title={item.label}
-                                    description={item.description}
-                                />
-                            ))}
-                        </Grid>
+            <div className="grid-rows-2">
+                <div className="row-span-1">
+                    <div className="text-lg p-2">Welcome, {User.username}</div>
+                </div>
+                <div className="columns-12 grid grid-flow-col space-x-3 p-1">
+                    <div className="col-span-6 block border-[0.1px] rounded-sm border-opacity-[0.1]">
+                        <div className="text-lg p-3">Manage Cloud Services </div>
+                        <div className="m-2 p-2" style={{ borderRadius: '14px' }}>
+                            <Grid container spacing={2}>
+                                {serviceico.map((item, index) => (
+                                    <SCard
+                                        key={index}
+                                        icon={React.cloneElement(item.icon, {
+                                            style: { ...icostyle.default, ...item.styles }
+                                        })}
+                                        title={item.label}
+                                        description={item.description}
+                                    />
+                                ))}
+                            </Grid>
+                        </div>
                     </div>
-
+                    <div className="col-span-6 block border-[0.1px] rounded-sm border-opacity-[0.1] p-1 w-60">
+                        <div className="text-lg p-2 border-b-[0.1px]">Notifications:</div>
+                        <div className="p-2 block bg-slate-800 text text truncate">This is demo notification for user1</div>
+                    </div>
                 </div>
-                <div className="col-span-5 block border rounded-md border-opacity-20 p-2">
-                <div className="text-lg p-3">Notifications:</div>
-                </div>
+                <div className="row-span-1"></div>
             </div>
         </div>
     )

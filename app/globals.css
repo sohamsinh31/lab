@@ -5,7 +5,6 @@
 
 * {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: large;
 }
 
 :root {
@@ -15,7 +14,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #13021f;
+    --background: #122235;
     --foreground: #ededed;
   }
 }
