@@ -6,7 +6,7 @@ export function middleware(req: NextRequest) {
 
     console.log(session)
     // If no session and trying to access protected routes, redirect to login
-    if (!session && req.nextUrl.pathname !== '/login') {
+    if (!session && req.nextUrl.pathname !== '/auth/login') {
         return NextResponse.redirect(new URL('/auth/login', req.url));
     }
 

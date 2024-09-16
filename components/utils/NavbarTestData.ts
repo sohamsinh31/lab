@@ -14,5 +14,5 @@ export const navbarData = [
             { label: 'Manage', href: '#' },
             { label: 'LogOut', href: '#' },
         ]
-    } : null,
+    } : { label: 'Login', href: '/auth/login' },
 ];
