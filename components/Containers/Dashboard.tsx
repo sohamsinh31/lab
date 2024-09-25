@@ -7,6 +7,7 @@ import MemoryIcon from '@mui/icons-material/Memory';
 import ScienceIcon from '@mui/icons-material/Science';
 import WatchIcon from '@mui/icons-material/Watch';
 import { User } from "../services/CookieData";
+import PublicIcon from '@mui/icons-material/Public';
 
 const icostyle = {
     default: {
@@ -46,6 +47,12 @@ const serviceico = [
         description: "Manage Session Time of labs and resources.",
         styles: { background: "linear-gradient(135deg, rgb(63 45 60) 0%, rgb(200 83 229) 100%)", color: "" },
         icon: <WatchIcon style={{ ...icostyle.default }} />
+    },
+    {
+        label: "Manage Website",
+        description: "Manage component of all websites.",
+        styles: {color: 'blue'},
+        icon: <PublicIcon />
     }
 ];
 
@@ -70,7 +77,7 @@ const Dashboard = () => {
                                             style: { ...icostyle.default, ...item.styles }
                                         })}
                                         title={item.label}
-                                        description={item.description}
+                                        description={item.description ? item.description : ""}
                                     />
                                 ))}
                             </Grid>

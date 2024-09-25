@@ -28,6 +28,7 @@ export class JLogin extends JWServer {
         const result = await this.request('POST', data, false);
         if (result) {
             nookies.set(null, 'jwtoken', result.token, { maxAge: 7 * 24 * 60 * 60 * 1000, path: "/" })
+            nookies.set(null, 'username', data.username, { maxAge: 7 * 24 * 60 * 60 * 1000, path: "/" })
             // console.log('Login successful:', result);
         } else {
             console.error('Login failed:', this.error.message);
