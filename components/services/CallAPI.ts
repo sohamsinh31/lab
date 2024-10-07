@@ -1,41 +1,28 @@
 import { parseCookies } from 'nookies';
 import { toast } from 'react-toastify';
 
+// Fetch Data with JWT
 export const fetchData = async (url: string) => {
     try {
-        const { token } = parseCookies();
-        console.log("Parsing cookie:-", token)
+        const { jwtoken } = parseCookies();
         const response = await fetch(url, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'X-Authorization': process.env.NEXT_PUBLIC_APIKEY || '',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${jwtoken}`
             },
-            credentials: 'include'
+            credentials: 'include',
         });
 
-        if (response.status == 401) {
-            window.location.href = "/login";
+        if (response.status == 403 || response.status == 401) {
+            // Redirect to login if token is expired or invalid
+            window.location.href = "/auth/login";
             return;
         }
 
-        // Check if response is OK
         if (!response.ok) {
             const errorResponse = await response.json();
             throw new Error(errorResponse?.error);
-        }
-
-        // console.log(response.text())
-
-        // Check if response Content-Type is JSON
-        const contentType = response.headers.get('Content-Type');
-        const isJSON = contentType && contentType.includes('application/json');
-
-        if (!isJSON) {
-            // Redirect to login page or handle HTML error response
-            window.location.href = "/login";
-            return;
         }
 
         return await response.json();
@@ -44,20 +31,25 @@ export const fetchData = async (url: string) => {
     }
 };
 
+// Post Data with JWT
 export const postData = async (url: string, data: any) => {
     try {
-        const { token } = parseCookies();
+        const { jwtoken } = parseCookies();
         const response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-Authorization': process.env.NEXT_PUBLIC_APIKEY || '',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${jwtoken}`
             },
             credentials: 'include',
-            body: data,
+            body: JSON.stringify(data), // Ensure the data is JSON stringified
         });
-        // console.log(response.text())
+
+        if (response.status == 403 || response.status == 401) {
+            window.location.href = "/auth/login";
+            return;
+        }
+
         if (response.ok) {
             return await response.json();
         } else {
@@ -69,19 +61,24 @@ export const postData = async (url: string, data: any) => {
     }
 };
 
+// Post Form Data with JWT
 export const postFormData = async (url: string, data: any) => {
     try {
-        const { token } = parseCookies();
+        const { jwtoken } = parseCookies();
         const response = await fetch(url, {
             method: 'POST',
             headers: {
-                'X-Authorization': process.env.NEXT_PUBLIC_APIKEY || '',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${jwtoken}`
             },
             credentials: 'include',
-            body: data,
+            body: data, // FormData should not be stringified
         });
-        // console.log(response.text())
+
+        if (response.status == 403 || response.status == 401) {
+            window.location.href = "/auth/login";
+            return;
+        }
+
         if (response.ok) {
             return await response.json();
         } else {
@@ -89,25 +86,28 @@ export const postFormData = async (url: string, data: any) => {
             throw new Error(errorResponse.error);
         }
     } catch (error: any) {
-        throw new Error('Error posting data: ' + error.message);
+        throw new Error('Error posting form data: ' + error.message);
     }
 };
 
+// Put Data with JWT
 export const putData = async (url: string, data: any) => {
     try {
-        const { token } = parseCookies();
+        const { jwtoken } = parseCookies();
         const response = await fetch(url, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                'X-Authorization': process.env.NEXT_PUBLIC_APIKEY || '',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${jwtoken}`
             },
             credentials: 'include',
-            body: JSON.stringify(data),
+            body: JSON.stringify(data), // Ensure the data is JSON stringified
         });
 
-        // console.log(response.text())
+        if (response.status == 403 || response.status == 401) {
+            window.location.href = "/auth/login";
+            return;
+        }
 
         if (response.ok) {
             return await response.json();
@@ -120,20 +120,24 @@ export const putData = async (url: string, data: any) => {
     }
 };
 
+// Delete Data with JWT
 export const deleteData = async (url: string, data: any) => {
     try {
-        const { token } = parseCookies();
+        const { jwtoken } = parseCookies();
         const response = await fetch(url, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
-                'X-Authorization': process.env.NEXT_PUBLIC_APIKEY || '',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${jwtoken}`
             },
             credentials: 'include',
-            body: JSON.stringify(data),
+            body: JSON.stringify(data), // Ensure the data is JSON stringified
         });
-        // console.log(response.text())
+
+        if (response.status == 403 || response.status == 401) {
+            window.location.href = "/auth/login";
+            return;
+        }
 
         if (response.ok) {
             return await response.json();

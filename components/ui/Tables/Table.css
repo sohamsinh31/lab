@@ -1,0 +1,123 @@
+.ctable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  /* border-radius: 12px; */
+  overflow-x: auto;
+}
+
+.ctable-options {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid white;
+}
+
+.ctable-options-input {
+  border-radius: 12px;
+  border: 1.5px solid white;
+  margin: 6px;
+  padding: 8px;
+  flex: 1;
+}
+
+.ctable-options-r {
+  margin-left: 50%;
+}
+
+.ctable-options>button {
+  margin: 6px;
+  padding: 6px;
+}
+
+.ctable-header,
+.ctable-row {
+  display: flex;
+  min-width: 600px;
+  /* Set a minimum width to ensure the ctable has enough space for all columns */
+}
+
+.ctable-header {
+  font-weight: bold;
+  border: 1px solid white;
+}
+
+.ctable-body {
+  border: 1px solid white;
+}
+
+.ctable div {
+  flex: 1;
+  padding: 4px;
+  text-align: left;
+}
+
+.ctable-container {
+  position: relative;
+}
+
+.ctable-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.pagination {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pagination li {
+  margin: 0 5px;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+}
+
+.pagination li.active {
+  background: #4CAF50;
+  color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .ctable {
+    overflow-x: auto;
+    /* Enable horizontal scrolling on small screens */
+  }
+
+  .ctable-body {
+    overflow-x: auto;
+  }
+
+  .ctable-options {
+    flex-direction: column;
+    /* Stack options vertically on small screens */
+    align-items: stretch;
+  }
+
+  .ctable-options-r {
+    margin-left: 0;
+    /* Reset margin for small screens */
+    margin-top: 10px;
+    /* Add margin to separate from input */
+  }
+
+  .ctable-header,
+  .ctable-row {
+    min-width: 600px;
+    /* Ensure ctable rows and header have a minimum width */
+  }
+
+  .ctable-footer {
+    flex-direction: column;
+    /* Stack pagination and other footer content vertically on small screens */
+  }
+
+  .pagination {
+    margin-top: 10px;
+    /* Add margin to separate pagination from other footer content */
+  }
+}

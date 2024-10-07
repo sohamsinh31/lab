@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { fetchData } from './components/services/CallAPI';
+import { useEffect, useState } from 'react';
 
 export function middleware(req: NextRequest) {
     const session = req.cookies.get('jwtoken');

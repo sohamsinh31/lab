@@ -1,0 +1,22 @@
+.app-container {
+  margin-top: 1%;
+  display: flex;
+  padding: 20px;
+}
+
+.content-container {
+  flex: 1;
+  padding: 20px;
+}
+
+.page-container {
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+@media(max-width: 768px){
+  .app-container{
+    display: flex;
+    flex-direction: column;
+  }
+}
