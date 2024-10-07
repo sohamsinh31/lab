@@ -7,7 +7,6 @@ import { navbarData } from '@/components/utils/NavbarTestData';
 import { sidebarData } from '@/components/utils/SidebarTestData';
 import DashboardRoute from '@/Routes/Dashboard';
 import ServiceRoute from '@/Routes/ServiceRoute';
-// import ErrorRoute from '@/Routes/ErrorRoute'; // Create an error page component if needed
 
 // Predefined routes map
 const routes: any = {
@@ -17,17 +16,22 @@ const routes: any = {
 
 const DefaultRoutes = () => {
     const router = useRouter(); // Get the current route info
-    const currentPath = router.pathname.split('/')[1];
+    const { slug } = router.query; // Get the dynamic slug from the URL
 
-    console.log(currentPath)
+    console.log(slug); // 'services', 'dashboard', etc.
 
-    // Find the matching route component based on the path
-    const ActiveRoute = routes[currentPath ? currentPath : 'dashboard'] || <div>Error code: 404</div>;
+    // Find the matching route component based on the slug
+    const currentPath = slug ? slug.toString() : 'dashboard'; // Ensure slug is a string
+
+    const ActiveRoute = routes[currentPath] || null;
 
     return (
-        <div className="flex min-w-[100vh]">
-            <Sidebar data={sidebarData} />
-            <ActiveRoute /> {/* Render the matched route component */}
+        <div>
+            <Navbar data={navbarData} />
+            <div className="flex min-w-[100vh]">
+                <Sidebar data={sidebarData} />
+                {ActiveRoute ? <ActiveRoute /> : <div>Error code: 404</div>}
+            </div>
         </div>
     );
 };

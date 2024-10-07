@@ -7,7 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-const ServiceRoute: React.FC = () => {
+const ServiceRoute = () => {
     const [userData, setUserData] = useState<any[]>([]);
     // const [query, setQuery] = useState<any>('');
 
@@ -85,14 +85,13 @@ const ServiceRoute: React.FC = () => {
     };
 
     return <div className='flex min-w-[95vw]'>
-        <Sidebar data={sidebarData} />
         <div className="m-2 p-2">
             <div className="row m-2 p-2">
                 <h2>Client Services,</h2>
             </div>
             <div className="row m-1 p-1">
                 <Table data={userData} fieldsConfig={{
-                    "id": {type: 'hidden'},
+                    "id": { type: 'hidden' },
                     "name": { type: 'text' },
                     "description": { type: 'text' },
                 }}
