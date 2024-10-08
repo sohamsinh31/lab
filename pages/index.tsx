@@ -8,10 +8,7 @@ import DefaultRoutes from '@/Routes/DefaultRouter';
 
 const App = () => {
   return (
-    <div className='container min-w-full'>
-      <Navbar data={navbarData} />
-      <DefaultRoutes />
-    </div>
+    <DefaultRoutes />
   )
 }
 

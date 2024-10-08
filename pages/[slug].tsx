@@ -15,10 +15,10 @@ const routes: any = {
 };
 
 const DefaultRoutes = () => {
-    const router = useRouter(); // Get the current route info
-    const { slug } = router.query; // Get the dynamic slug from the URL
+    const router = useRouter();
+    const { slug } = router.query;
 
-    console.log(slug); // 'services', 'dashboard', etc.
+    console.log(slug);
 
     // Find the matching route component based on the slug
     const currentPath = slug ? slug.toString() : 'dashboard'; // Ensure slug is a string
@@ -28,7 +28,7 @@ const DefaultRoutes = () => {
     return (
         <div>
             <Navbar data={navbarData} />
-            <div className="flex min-w-[100vh]">
+            <div className='flex'>
                 <Sidebar data={sidebarData} />
                 {ActiveRoute ? <ActiveRoute /> : <div>Error code: 404</div>}
             </div>

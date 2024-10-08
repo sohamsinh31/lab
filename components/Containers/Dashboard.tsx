@@ -5,7 +5,7 @@ import SCard from "../ui/Cards/SCard";
 import MemoryIcon from '@mui/icons-material/Memory';
 import ScienceIcon from '@mui/icons-material/Science';
 import WatchIcon from '@mui/icons-material/Watch';
-import { User } from "../services/CookieData";
+import { username } from "../services/CookieData";
 import PublicIcon from '@mui/icons-material/Public';
 
 const icostyle = {
@@ -57,12 +57,12 @@ const serviceico = [
 
 // console.log(User.username)
 
-const Dashboard = () => {
+const Dashboard: React.FC = () => {
     return (
         <div className="m-4">
             <div className="grid-rows-2">
                 <div className="row-span-1">
-                    <div className="text-lg p-2">Welcome, {User.username}</div>
+                    <div className="text-lg p-2">Welcome, {!username}</div>
                 </div>
                 <div className="columns-12 grid grid-flow-col space-x-3 p-1">
                     <div className="col-span-6 block border-[0.1px] rounded-sm border-opacity-[0.1]">

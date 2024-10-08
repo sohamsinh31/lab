@@ -25,9 +25,12 @@ const DefaultRoutes = () => {
     const ActiveRoute = routes[currentPath ? currentPath : 'dashboard'] || <div>Error code: 404</div>;
 
     return (
-        <div className="flex min-w-[100vh]">
-            <Sidebar data={sidebarData} />
-            <ActiveRoute /> {/* Render the matched route component */}
+        <div>
+            <Navbar data={navbarData} />
+            <div className='flex'>
+                <Sidebar data={sidebarData} />
+                {ActiveRoute ? <ActiveRoute /> : <div>Error code: 404</div>}
+            </div>
         </div>
     );
 };
