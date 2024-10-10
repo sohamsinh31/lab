@@ -42,7 +42,7 @@ const Navbar = ({ data }: { data: NavbarData[] }) => {
             <div className="flex justify-between items-center">
                 <div className="text-white font-bold text-lg">
                     <a href="/">
-                        <img src="tlabs.png" width={'75px'} height={'100%'} alt="tlabs logo" />
+                        <img src="/tlabs.png" width={'75px'} height={'100%'} alt="tlabs logo" />
                     </a>
                 </div>
                 <div>
