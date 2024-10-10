@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { fetchData, putData, postData, deleteData } from '@/app/Components/Data/API';
 import Table from './Table';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { postData, putData, deleteData, fetchData } from '@/components/services/CallAPI';
 
 const UsersTable: React.FC = () => {
     const [userData, setUserData] = useState<any[]>([]);

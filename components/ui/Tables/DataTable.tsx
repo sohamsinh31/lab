@@ -1,8 +1,8 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import Table from './Table';
-import { fetchData, putData, postData, deleteData } from '@/app/Components/Data/API';
 import { toast, ToastContainer } from 'react-toastify';
+import { postData, putData, deleteData, fetchData } from '@/components/services/CallAPI';
 
 const DataTable: React.FC = () => {
     const [userData, setUserData] = useState<any[]>([]);
