@@ -5,15 +5,28 @@ import Navbar from '@/components/Navbar';
 import Sidebar from '@/components/Sidebar';
 import { navbarData } from '@/components/utils/NavbarTestData';
 import { sidebarData } from '@/components/utils/SidebarTestData';
-import DashboardRoute from '@/Routes/Dashboard';
-import ServiceRoute from '@/Routes/ServiceRoute';
 import { Routes } from '@/components/utils/RoutesProvider';
+import { useSession } from "next-auth/react";
+
 
 const DefaultRoutes = () => {
     const router = useRouter();
     const { slug } = router.query;
+    // Access session data and loading status
+    const { data: session, status } = useSession();
 
-    console.log(slug);
+    // Log session data to check its structure
+    console.log('Session data:', session);
+
+    if (status === "loading") {
+        return <div>Loading...</div>; // Handle loading state
+    }
+
+    if (!session) {
+        return <div>Please log in to view this page</div>; // Handle case when user is not authenticated
+    }
+
+    console.log(session.user?.email); //
 
     // Find the matching route component based on the slug
     const currentPath = slug ? slug.toString() : 'dashboard'; // Ensure slug is a string

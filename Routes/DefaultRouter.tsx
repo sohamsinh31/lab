@@ -8,6 +8,7 @@ import { sidebarData } from '@/components/utils/SidebarTestData';
 import DashboardRoute from '@/Routes/Dashboard';
 import ServiceRoute from '@/Routes/ServiceRoute';
 import { Routes } from '@/components/utils/RoutesProvider';
+import { useSession } from 'next-auth/react';
 // import ErrorRoute from '@/Routes/ErrorRoute'; // Create an error page component if needed
 
 
@@ -15,7 +16,21 @@ const DefaultRoutes = () => {
     const router = useRouter(); // Get the current route info
     const currentPath = router.pathname.split('/')[1];
 
-    console.log(currentPath)
+    // Access session data and loading status
+    const { data: session, status } = useSession();
+
+    // Log session data to check its structure
+    // console.log('Session data:', session);
+
+    if (status === "loading") {
+        return <div>Loading...</div>; // Handle loading state
+    }
+
+    if (!session) {
+        return <div>Please log in to view this page</div>; // Handle case when user is not authenticated
+    }
+
+    // console.log(session.user?.email); //
 
     // Find the matching route component based on the path
     const ActiveRoute = Routes[currentPath ? currentPath : 'dashboard'] || <div>Error code: 404</div>;
