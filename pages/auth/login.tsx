@@ -1,7 +1,9 @@
 "use client";
 import { JLogin } from '@/components/services/JLogin/Login.service';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { signIn, signOut, useSession } from "next-auth/react";
+import { Google } from '@mui/icons-material';
 
 const Login: React.FC = () => {
     const [username, setUsername] = useState<string>('');
@@ -9,6 +11,17 @@ const Login: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<boolean>(false);
     const router = useRouter();
+    const { data: session } = useSession();
+
+    useEffect(() => {
+
+        if (session) {
+            router.push("/");
+        }
+
+    }, [session])
+
+
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -77,6 +90,7 @@ const Login: React.FC = () => {
                     {error && <div className="text-red-500 mt-3">{error}</div>}
                     {success && <div className="text-green-500 mt-3">Login successful!</div>}
                 </form>
+                <button className='p-2 m-1 border border-b-slate-600 rounded-3xl bg-transparent text-slate-600' onClick={() => signIn("google")}><Google /></button>
             </div>
         </div>
     );
