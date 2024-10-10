@@ -7,12 +7,7 @@ import { navbarData } from '@/components/utils/NavbarTestData';
 import { sidebarData } from '@/components/utils/SidebarTestData';
 import DashboardRoute from '@/Routes/Dashboard';
 import ServiceRoute from '@/Routes/ServiceRoute';
-
-// Predefined routes map
-const routes: any = {
-    "dashboard": DashboardRoute,
-    "services": ServiceRoute,
-};
+import { Routes } from '@/components/utils/RoutesProvider';
 
 const DefaultRoutes = () => {
     const router = useRouter();
@@ -23,7 +18,7 @@ const DefaultRoutes = () => {
     // Find the matching route component based on the slug
     const currentPath = slug ? slug.toString() : 'dashboard'; // Ensure slug is a string
 
-    const ActiveRoute = routes[currentPath] || null;
+    const ActiveRoute = Routes[currentPath] || null;
 
     return (
         <div>

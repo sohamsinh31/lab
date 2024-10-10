@@ -3,12 +3,15 @@ import '../app/globals.css';
 import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { SessionProvider } from "next-auth/react";
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
-    
+const MyApp = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
+
 
     return (
-        <Component {...pageProps} />
+        <SessionProvider session={session}>
+            <Component {...pageProps} />
+        </SessionProvider>
     );
 };
 

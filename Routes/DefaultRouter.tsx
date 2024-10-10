@@ -7,13 +7,9 @@ import { navbarData } from '@/components/utils/NavbarTestData';
 import { sidebarData } from '@/components/utils/SidebarTestData';
 import DashboardRoute from '@/Routes/Dashboard';
 import ServiceRoute from '@/Routes/ServiceRoute';
+import { Routes } from '@/components/utils/RoutesProvider';
 // import ErrorRoute from '@/Routes/ErrorRoute'; // Create an error page component if needed
 
-// Predefined routes map
-const routes: any = {
-    "dashboard": DashboardRoute,
-    "services": ServiceRoute,
-};
 
 const DefaultRoutes = () => {
     const router = useRouter(); // Get the current route info
@@ -22,7 +18,7 @@ const DefaultRoutes = () => {
     console.log(currentPath)
 
     // Find the matching route component based on the path
-    const ActiveRoute = routes[currentPath ? currentPath : 'dashboard'] || <div>Error code: 404</div>;
+    const ActiveRoute = Routes[currentPath ? currentPath : 'dashboard'] || <div>Error code: 404</div>;
 
     return (
         <div>
