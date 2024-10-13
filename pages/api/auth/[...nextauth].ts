@@ -8,11 +8,12 @@ export default NextAuth({
             clientSecret: process.env.NEXT_PUBLIC_GAUTH_SEC || '',
             authorization: {
                 params: {
-                    scope: "https://www.googleapis.com/auth/gmail.send email profile",
+                    scope: "https://www.googleapis.com/auth/gmail.send email profile https://www.googleapis.com/auth/gmail.readonly",
                 },
             },
         }),
     ],
+    secret: process.env.NEXTAUTH_SECRET,
     callbacks: {
         async jwt({ token, account }) {
             if (account) {

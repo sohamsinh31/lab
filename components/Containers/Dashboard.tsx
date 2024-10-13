@@ -7,6 +7,7 @@ import ScienceIcon from '@mui/icons-material/Science';
 import WatchIcon from '@mui/icons-material/Watch';
 import { username } from "../services/CookieData";
 import PublicIcon from '@mui/icons-material/Public';
+import EmailIcon from '@mui/icons-material/Email';
 
 const icostyle = {
     default: {

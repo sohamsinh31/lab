@@ -16,17 +16,17 @@ const DefaultRoutes = () => {
     const { data: session, status } = useSession();
 
     // Log session data to check its structure
-    console.log('Session data:', session);
+    // console.log('Session data:', session);
 
     if (status === "loading") {
         return <div>Loading...</div>; // Handle loading state
     }
 
     if (!session) {
-        return <div>Please log in to view this page</div>; // Handle case when user is not authenticated
+        router.push("/auth/login");
     }
 
-    console.log(session.user?.email); //
+    // console.log(session!.user?.email); 
 
     // Find the matching route component based on the slug
     const currentPath = slug ? slug.toString() : 'dashboard'; // Ensure slug is a string
