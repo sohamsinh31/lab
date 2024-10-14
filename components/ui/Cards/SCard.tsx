@@ -2,6 +2,7 @@ interface SCardProps {
     title: string;
     icon: React.ReactNode;
     description: string;
+    linkurl: string;
 }
 
 const hexToRgba = (hex: string, alpha: number) => {
@@ -11,7 +12,7 @@ const hexToRgba = (hex: string, alpha: number) => {
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 };
 
-const SCard: React.FC<SCardProps> = ({ title, icon, description }) => {
+const SCard: React.FC<SCardProps> = ({ title, icon, description, linkurl }) => {
     return (
         <div
             className="flex m-2 p-2 items-center w-[36vh] h-[70px] rounded-md bg-slate-900 space-x-1 backdrop-blur-xl shadow-sm shadow-transparent"
@@ -19,7 +20,7 @@ const SCard: React.FC<SCardProps> = ({ title, icon, description }) => {
             <div className="flex justify-center items-center w-1/4">
                 <div>{icon}</div>
             </div>
-            <div className="w-3/4 pe-1">
+            <div onClick={() => {window.location.href = linkurl}} className="w-3/4 pe-1">
                 <div className="border-b border-opacity-20 text-primary-content">
                     <h3
                         className="text truncate"

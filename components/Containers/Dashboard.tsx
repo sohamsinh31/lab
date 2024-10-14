@@ -22,7 +22,8 @@ const serviceico = [
         label: "Users",
         description: "Manage your users settings.",
         styles: { background: "linear-gradient(135deg, #00C9FF 0%, #92FE9D 100%)", padding: '2px' },
-        icon: <AccountCircleIcon fontSize="small" style={{ ...icostyle.default }} />, // Correct the usage here
+        icon: <AccountCircleIcon fontSize="small" style={{ ...icostyle.default }} />,
+        link: "#"
     },
     {
         label: "Resources",
@@ -53,6 +54,13 @@ const serviceico = [
         description: "Manage component of all websites.",
         styles: { color: 'blue' },
         icon: <PublicIcon />
+    },
+    {
+        label: "EMailer",
+        description: "Keep in touch with communications.",
+        styles: { background: "linear-gradient(135deg, rgb(113 45 68) 0%, rgb(120 83 29) 100%)", color: 'white' },
+        icon: <EmailIcon />,
+        link: "/mail"
     }
 ];
 
@@ -78,6 +86,7 @@ const Dashboard: React.FC = () => {
                                         })}
                                         title={item.label}
                                         description={item.description ? item.description : ""}
+                                        linkurl = {item.link? item.link : ""}
                                     />
                                 ))}
                             </Grid>
