@@ -8,6 +8,7 @@ import WatchIcon from '@mui/icons-material/Watch';
 import { username } from "../services/CookieData";
 import PublicIcon from '@mui/icons-material/Public';
 import EmailIcon from '@mui/icons-material/Email';
+import WorkspacesIcon from '@mui/icons-material/Workspaces';
 
 const icostyle = {
     default: {
@@ -58,10 +59,25 @@ const serviceico = [
     {
         label: "EMailer",
         description: "Keep in touch with communications.",
-        styles: { background: "linear-gradient(135deg, rgb(113 45 68) 0%, rgb(120 83 29) 100%)", color: 'white' },
+        styles: { 
+            background: "linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)",  // Cool blue-purple gradient
+            color: '#fff'  // White text for contrast
+        },
         icon: <EmailIcon />,
         link: "/mail"
+    },
+    {
+        label: "SRG",
+        description: "Service Resource Groups.",
+        styles: { 
+            background: "linear-gradient(135deg, #ff8c00 0%, #ffcc66 100%)",  // Updated gradient
+            color: '#333'  // Dark gray text color for better readability
+        },
+        icon: <WorkspacesIcon />,
+        link: "/mail"
     }
+    
+
 ];
 
 // console.log(User.username)
@@ -86,7 +102,7 @@ const Dashboard: React.FC = () => {
                                         })}
                                         title={item.label}
                                         description={item.description ? item.description : ""}
-                                        linkurl = {item.link? item.link : ""}
+                                        linkurl={item.link ? item.link : ""}
                                     />
                                 ))}
                             </Grid>
