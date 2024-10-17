@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { signIn, signOut, useSession } from "next-auth/react";
 import { Google, Logout } from '@mui/icons-material';
 import Link from 'next/link';
+import { parseCookies } from 'nookies';
 
 const Login: React.FC = () => {
     const [username, setUsername] = useState<string>('');
@@ -13,6 +14,7 @@ const Login: React.FC = () => {
     const [success, setSuccess] = useState<boolean>(false);
     const router = useRouter();
     const { data: session } = useSession();
+    const { jwtoken } = parseCookies();
 
     useEffect(() => {
 

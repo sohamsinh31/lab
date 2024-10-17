@@ -10,13 +10,13 @@ const Login: React.FC = () => {
     const router = useRouter();
     const { data: session } = useSession();
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        if (!session) {
-            router.push("/");
-        }
+    //     if (!session) {
+    //         router.push("/");
+    //     }
 
-    }, [session])
+    // }, [session])
 
 
 

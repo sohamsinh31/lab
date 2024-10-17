@@ -54,7 +54,8 @@ const serviceico = [
         label: "Manage Website",
         description: "Manage component of all websites.",
         styles: { color: 'blue' },
-        icon: <PublicIcon />
+        icon: <PublicIcon />,
+        link: "/services"
     },
     {
         label: "EMailer",
@@ -89,10 +90,10 @@ const Dashboard: React.FC = () => {
                 <div className="row-span-1">
                     <div className="text-lg p-2">Welcome, {!username}</div>
                 </div>
-                <div className="columns-12 grid grid-flow-col space-x-3 p-1">
+                <div className="columns-12 grid grid-flow-col space-x-2.5 p-1">
                     <div className="col-span-6 block border-[0.1px] rounded-sm border-opacity-[0.1]">
                         <div className="text-lg p-3">Manage Cloud Services </div>
-                        <div className="m-2 p-2" style={{ borderRadius: '14px' }}>
+                        <div className="m-2 p-1.5" style={{ borderRadius: '14px' }}>
                             <Grid container spacing={2}>
                                 {serviceico.map((item, index) => (
                                     <SCard

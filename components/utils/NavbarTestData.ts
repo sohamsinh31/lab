@@ -12,7 +12,7 @@ export const navbarData = [
     username ? {
         label: username, href: '#', dropdown: [
             { label: 'Manage', href: '#' },
-            { label: 'LogOut', href: '#' },
+            { label: 'LogOut', href: '/auth/logout' },
         ]
     } : { label: 'Login', href: '/auth/login' },
 ];

@@ -14,6 +14,7 @@ export default NextAuth({
         }),
     ],
     secret: process.env.NEXT_PUBLIC_SEC,
+    debug: true,
     callbacks: {
         async jwt({ token, account }) {
             if (account) {
@@ -25,5 +26,34 @@ export default NextAuth({
             session.accessToken = token.accessToken;
             return session;
         },
+        async signIn({ user, account, profile }) {
+            const userData = {
+                email: user.email,
+                username: user.name,
+                image: user.image,
+                provider: account?.provider || "google",
+                providerAccountId: account?.providerAccountId,
+            };
+
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_JWS_URL}/api/register`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(userData),
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error("Failed to save user data to backend:", errorData);
+                }
+                // Continue with sign-in even if backend fails
+                return true;
+            } catch (error) {
+                console.error("Error saving user data:", error);
+                return true; // Continue with sign-in even in case of error
+            }
+        }
     },
 });
