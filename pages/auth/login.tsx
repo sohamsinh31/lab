@@ -19,10 +19,13 @@ const Login: React.FC = () => {
     useEffect(() => {
 
         if (session) {
+            console.log(session);
             router.push("/");
         }
 
     }, [session])
+
+    console.log(session);
 
 
     const handleLogin = async (e: React.FormEvent) => {

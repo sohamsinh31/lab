@@ -27,7 +27,7 @@ const DefaultRoutes = () => {
     }
 
     if (!session) {
-        return <div>Please log in to view this page</div>; // Handle case when user is not authenticated
+        router.push("/auth/login")
     }
 
     // console.log(session.user?.email); //
