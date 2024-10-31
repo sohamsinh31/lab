@@ -2,7 +2,7 @@ import { google } from 'googleapis';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getToken } from 'next-auth/jwt';
 
-const secret = process.env.NEXTAUTH_SECRET;  // Define your next-auth secret in the .env file
+const secret = process.env.NEXT_PUBLIC_SEC;  // Define your next-auth secret in the .env file
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     // Retrieve the token using next-auth's getToken for server-side access

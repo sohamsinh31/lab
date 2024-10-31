@@ -19,12 +19,10 @@ const EmailEditor: React.FC = () => {
 
         if (!session) {
             router.push("/auth/login")
-        } else { setAcc(session?.accessToken) }
+        } else { setAcc(session?.tokens) }
 
-        readMails();
-
+        
     }, [session])
-
 
 
     const handleChange = (value: string) => {
@@ -44,10 +42,20 @@ const EmailEditor: React.FC = () => {
         ],
     };
 
+    console.log(accessToken)
+
     const readMails = async () => {
-        const data = await fetch('/api/gmail/read');
-        console.log(data);
+        const data = await fetch('/api/gmail/read', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ tokens: accessToken })
+        });
+        console.log(data.json());
     }
+
+    readMails();
 
     const sendMail = async () => {
         if (!accessToken) {

@@ -1,7 +1,8 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import { JWT } from "next-auth/jwt";
 
-export default NextAuth({
+const authOptions: NextAuthOptions = {
     providers: [
         GoogleProvider({
             clientId: process.env.NEXT_PUBLIC_GAUTH_ID || '',
@@ -16,13 +17,19 @@ export default NextAuth({
     secret: process.env.NEXT_PUBLIC_SEC,
     debug: true,
     callbacks: {
-        async signIn({ user, account, profile }) {
+        async signIn({ user, account }) {
+            // Ensure account is not null before proceeding
+            if (!account) {
+                console.error("No account information available.");
+                return false; // Prevent sign-in
+            }
+
             const userData = {
                 email: user.email,
                 username: user.name,
                 image: user.image,
-                provider: account?.provider || "google",
-                providerAccountId: account?.providerAccountId,
+                provider: account.provider || "google",
+                providerAccountId: account.providerAccountId,
             };
 
             try {
@@ -36,32 +43,40 @@ export default NextAuth({
 
                 if (response.ok) {
                     const responseData = await response.json();
-                    // Attach the JWT token to be passed to the jwt callback
-                    account!.jwtToken = responseData.token;
-                    return true;
+                    account.tokens = account.access_token;
+                    // Attach the JWT token from backend to the account object
+                    account.jwtToken = responseData.token; // Ensure this is the correct path to the token
+                    return true; // Allow sign-in
                 } else {
                     const errorData = await response.json();
                     console.error("Failed to save user data to backend:", errorData);
+                    return false; // Prevent sign-in on failure
                 }
-                return true; // Allow sign-in regardless of backend result
             } catch (error) {
                 console.error("Error saving user data:", error);
-                return true; // Continue with sign-in even in case of error
+                return false; // Prevent sign-in on error
             }
         },
 
         async jwt({ token, account }) {
-            // Attach the JWT token from the signIn response to the token object
-            if (account && account.jwtToken) {
-                token.jwtToken = account.jwtToken;
+            // Attach both JWT token and access token to the token object
+            if (account) {
+                token.jwtToken = account.jwtToken; // JWT from your backend
+                token.tokens = account.access_token
+                token.accessToken = account.accessToken; // Access token from Google
+
             }
             return token;
         },
 
-        async session({ session, token }: any) {
-            // Pass the JWT token to the session object so it can be accessed in the frontend
+        async session({ session, token }: { session: any; token: JWT }) {
+            // Pass both JWT token and access token to the session object
             session.jwtToken = token.jwtToken;
+            session.accessToken = token.accessToken;
+            session.tokens = token.tokens;
             return session;
         }
     },
-});
+};
+
+export default NextAuth(authOptions);
