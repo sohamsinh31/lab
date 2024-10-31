@@ -1,10 +1,12 @@
-import { parseCookies } from 'nookies';
+import { getSession } from 'next-auth/react';
 import { toast } from 'react-toastify';
 
 // Fetch Data with JWT
 export const fetchData = async (url: string) => {
     try {
-        const { jwtoken } = parseCookies();
+        const session : any = await getSession();
+        const jwtoken = session?.jwtToken;
+
         const response = await fetch(url, {
             method: 'GET',
             headers: {
@@ -14,8 +16,7 @@ export const fetchData = async (url: string) => {
             credentials: 'include',
         });
 
-        if (response.status == 403 || response.status == 401) {
-            // Redirect to login if token is expired or invalid
+        if (response.status === 403 || response.status === 401) {
             window.location.href = "/auth/login";
             return;
         }
@@ -34,7 +35,9 @@ export const fetchData = async (url: string) => {
 // Post Data with JWT
 export const postData = async (url: string, data: any) => {
     try {
-        const { jwtoken } = parseCookies();
+        const session : any = await getSession();
+        const jwtoken = session?.jwtToken;
+
         const response = await fetch(url, {
             method: 'POST',
             headers: {
@@ -42,10 +45,10 @@ export const postData = async (url: string, data: any) => {
                 'Authorization': `Bearer ${jwtoken}`
             },
             credentials: 'include',
-            body: JSON.stringify(data), // Ensure the data is JSON stringified
+            body: JSON.stringify(data),
         });
 
-        if (response.status == 403 || response.status == 401) {
+        if (response.status === 403 || response.status === 401) {
             window.location.href = "/auth/login";
             return;
         }
@@ -64,7 +67,9 @@ export const postData = async (url: string, data: any) => {
 // Post Form Data with JWT
 export const postFormData = async (url: string, data: any) => {
     try {
-        const { jwtoken } = parseCookies();
+        const session : any = await getSession();
+        const jwtoken = session?.jwtToken;
+
         const response = await fetch(url, {
             method: 'POST',
             headers: {
@@ -74,7 +79,7 @@ export const postFormData = async (url: string, data: any) => {
             body: data, // FormData should not be stringified
         });
 
-        if (response.status == 403 || response.status == 401) {
+        if (response.status === 403 || response.status === 401) {
             window.location.href = "/auth/login";
             return;
         }
@@ -93,7 +98,9 @@ export const postFormData = async (url: string, data: any) => {
 // Put Data with JWT
 export const putData = async (url: string, data: any) => {
     try {
-        const { jwtoken } = parseCookies();
+        const session : any = await getSession();
+        const jwtoken = session?.jwtToken;
+
         const response = await fetch(url, {
             method: 'PUT',
             headers: {
@@ -101,10 +108,10 @@ export const putData = async (url: string, data: any) => {
                 'Authorization': `Bearer ${jwtoken}`
             },
             credentials: 'include',
-            body: JSON.stringify(data), // Ensure the data is JSON stringified
+            body: JSON.stringify(data),
         });
 
-        if (response.status == 403 || response.status == 401) {
+        if (response.status === 403 || response.status === 401) {
             window.location.href = "/auth/login";
             return;
         }
@@ -123,7 +130,9 @@ export const putData = async (url: string, data: any) => {
 // Delete Data with JWT
 export const deleteData = async (url: string, data: any) => {
     try {
-        const { jwtoken } = parseCookies();
+        const session : any = await getSession();
+        const jwtoken = session?.jwtToken;
+
         const response = await fetch(url, {
             method: 'DELETE',
             headers: {
@@ -131,10 +140,10 @@ export const deleteData = async (url: string, data: any) => {
                 'Authorization': `Bearer ${jwtoken}`
             },
             credentials: 'include',
-            body: JSON.stringify(data), // Ensure the data is JSON stringified
+            body: JSON.stringify(data),
         });
 
-        if (response.status == 403 || response.status == 401) {
+        if (response.status === 403 || response.status === 401) {
             window.location.href = "/auth/login";
             return;
         }

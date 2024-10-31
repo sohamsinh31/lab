@@ -7,6 +7,7 @@ import { navbarData } from '@/components/utils/NavbarTestData';
 import { sidebarData } from '@/components/utils/SidebarTestData';
 import { Routes } from '@/components/utils/RoutesProvider';
 import { useSession } from "next-auth/react";
+import { useEffect } from 'react';
 
 
 const DefaultRoutes = () => {
@@ -15,15 +16,16 @@ const DefaultRoutes = () => {
     // Access session data and loading status
     const { data: session, status } = useSession();
 
-    // Log session data to check its structure
-    // console.log('Session data:', session);
+    useEffect(() => {
+        // Redirect only if the session is unauthenticated and not loading
+        if (status === "unauthenticated") {
+            router.push("/auth/login");
+        }
+    }, [status, router]);
 
+    // Show loading state if session is still loading
     if (status === "loading") {
-        return <div>Loading...</div>; // Handle loading state
-    }
-
-    if (!session) {
-        router.push("/auth/login");
+        return <div>Loading...</div>;
     }
 
     // console.log(session!.user?.email); 

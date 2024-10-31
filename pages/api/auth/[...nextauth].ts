@@ -16,16 +16,6 @@ export default NextAuth({
     secret: process.env.NEXT_PUBLIC_SEC,
     debug: true,
     callbacks: {
-        async jwt({ token, account }) {
-            if (account) {
-                token.accessToken = account.access_token;
-            }
-            return token;
-        },
-        async session({ session, token }: any) {
-            session.accessToken = token.accessToken;
-            return session;
-        },
         async signIn({ user, account, profile }) {
             const userData = {
                 email: user.email,
@@ -44,16 +34,34 @@ export default NextAuth({
                     body: JSON.stringify(userData),
                 });
 
-                if (!response.ok) {
+                if (response.ok) {
+                    const responseData = await response.json();
+                    // Attach the JWT token to be passed to the jwt callback
+                    account!.jwtToken = responseData.token;
+                    return true;
+                } else {
                     const errorData = await response.json();
                     console.error("Failed to save user data to backend:", errorData);
                 }
-                // Continue with sign-in even if backend fails
-                return true;
+                return true; // Allow sign-in regardless of backend result
             } catch (error) {
                 console.error("Error saving user data:", error);
                 return true; // Continue with sign-in even in case of error
             }
+        },
+
+        async jwt({ token, account }) {
+            // Attach the JWT token from the signIn response to the token object
+            if (account && account.jwtToken) {
+                token.jwtToken = account.jwtToken;
+            }
+            return token;
+        },
+
+        async session({ session, token }: any) {
+            // Pass the JWT token to the session object so it can be accessed in the frontend
+            session.jwtToken = token.jwtToken;
+            return session;
         }
     },
 });

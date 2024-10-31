@@ -1,3 +1,4 @@
+import { fetchData } from '@/components/services/CallAPI';
 import { useSession } from 'next-auth/react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
@@ -20,6 +21,8 @@ const EmailEditor: React.FC = () => {
             router.push("/auth/login")
         } else { setAcc(session?.accessToken) }
 
+        readMails();
+
     }, [session])
 
 
@@ -40,6 +43,11 @@ const EmailEditor: React.FC = () => {
             ['clean']
         ],
     };
+
+    const readMails = async () => {
+        const data = await fetch('/api/gmail/read');
+        console.log(data);
+    }
 
     const sendMail = async () => {
         if (!accessToken) {
