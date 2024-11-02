@@ -42,15 +42,14 @@ const EmailEditor: React.FC = () => {
         ],
     };
 
-    console.log(accessToken)
+    // console.log(accessToken)
 
     const readMails = async () => {
         const data = await fetch('/api/gmail/read', {
-            method: 'POST',
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ tokens: accessToken })
         });
         console.log(data.json());
     }

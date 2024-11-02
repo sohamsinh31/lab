@@ -14,7 +14,6 @@ const Login: React.FC = () => {
     const [success, setSuccess] = useState<boolean>(false);
     const router = useRouter();
     const { data: session } = useSession();
-    const { jwtoken } = parseCookies();
 
     useEffect(() => {
 

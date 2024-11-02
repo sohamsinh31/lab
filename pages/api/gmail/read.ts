@@ -6,23 +6,25 @@ const secret = process.env.NEXT_PUBLIC_SEC;  // Define your next-auth secret in 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     // Retrieve the token using next-auth's getToken for server-side access
-    const { tokens : token } = req.body;
+    const token: any = await getToken({ req, secret });
 
     // Log the retrieved token to debug
-    console.log('Retrieved token:', token);
+    console.log('Retrieved token:', token.tokens);
 
     // Check if token and accessToken are present
-    if (!token) {
+    if (!token || !token.tokens) {
         console.error('Unauthorized: Token or accessToken not found.');
         return res.status(401).json({ error: 'Unauthorized' });
     }
 
     const oauth2Client = new google.auth.OAuth2();
     oauth2Client.setCredentials({
-        access_token: token as string,
+        access_token: token.accessToken as string,
     });
 
     const gmail = google.gmail({ version: 'v1', auth: oauth2Client });
+
+    // console.log(gmail.users.history)
 
     try {
         const response = await gmail.users.messages.list({

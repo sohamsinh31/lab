@@ -64,7 +64,7 @@ const authOptions: NextAuthOptions = {
                 token.jwtToken = account.jwtToken; // JWT from your backend
                 token.tokens = account.access_token
                 token.accessToken = account.accessToken; // Access token from Google
-
+                token.accessTokenExpires = account.expires_at ? account.expires_at * 1000 : null;
             }
             return token;
         },
@@ -74,6 +74,7 @@ const authOptions: NextAuthOptions = {
             session.jwtToken = token.jwtToken;
             session.accessToken = token.accessToken;
             session.tokens = token.tokens;
+            session.accessTokenExpires = token.accessTokenExpires;
             return session;
         }
     },
