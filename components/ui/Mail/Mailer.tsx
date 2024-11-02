@@ -54,7 +54,7 @@ const EmailEditor: React.FC = () => {
         console.log(data.json());
     }
 
-    readMails();
+    // readMails();
 
     const sendMail = async () => {
         if (!accessToken) {

@@ -8,13 +8,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // Retrieve the token using next-auth's getToken for server-side access
     const token: any = await getToken({ req, secret });
 
-    if (!token || !token.accessToken) {
+    console.log(token.accessToken)
+    console.log("Here is other: ", token.tokens)
+
+    if (!token || !token.tokens) {
         return res.status(401).json({ error: 'Unauthorized' });
     }
 
     const oauth2Client = new google.auth.OAuth2();
     oauth2Client.setCredentials({
-        access_token: token.accessToken,
+        access_token: token.tokens,
     });
 
     const gmail = google.gmail({ version: 'v1', auth: oauth2Client });
