@@ -1,11 +1,12 @@
 import ImageUpload from "@/components/ui/Drag/ImageDrag";
-import { useState } from "react";
+import React, { ReactElement, useState } from "react";
 
 const CourseRoute = () => {
     const [uploadedImages, setUploadedImages] = useState<File[]>([]);
     const [confirmOpen, setConfirmOpen] = useState(false);
     const [disabled, setDisabled] = useState(true);
     const [descriptions, setDescriptions] = useState<string[]>([]);
+    const [data, setData] = useState<string[]>([]);
 
     const handleImageChange = (images: File[]) => {
         setUploadedImages(images);
@@ -34,6 +35,15 @@ const CourseRoute = () => {
         setDescriptions(updatedDescriptions);
     };
 
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+        console.log(data);
+    };
+
     return (
         <div className="flex">
             {/* Left Side: Image Upload and Warnings */}
@@ -53,11 +63,11 @@ const CourseRoute = () => {
                 <div className="form">
                     <div>
                         <label htmlFor="topic">Enter Topic:-</label>
-                        <input type="text" name="topic" className="p-2 m-1 rounded-lg bg-transparent border" />
+                        <input type="text" name="topic" className="p-2 m-1 rounded-lg bg-transparent border" onChange={(e) => handleInputChange(e)} />
                     </div>
                     <div>
                         <label htmlFor="tags">Enter Tags:-</label>
-                        <input type="text" name="tags" className="p-2 m-1 rounded-lg bg-transparent border" />
+                        <input type="text" name="tags" className="p-2 m-1 rounded-lg bg-transparent border" onChange={(e) => handleInputChange(e)} />
                     </div>
                 </div>
                 <button
