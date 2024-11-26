@@ -1,9 +1,17 @@
-import nookies from 'nookies';
+import { getServerSession } from 'next-auth/next'; // For server-side session retrieval
+import authOptions from '@/pages/api/auth/[...nextauth]'; // Adjust this import path based on your project structure
 
-export const getUserFromCookies = (ctx?: any) => {
-    const cookies = nookies.get(ctx);
-    return cookies.username || null;
+// This is for server-side usage
+export const getServerSideUser = async (ctx: any) => {
+    const session: any = await getServerSession(ctx.req, ctx.res, authOptions);
+    return session?.user?.name || null;
 };
 
-// Call getUserFromCookies properly to get the username
-export const username = typeof window !== 'undefined' ? getUserFromCookies() : null;
+// Custom hook for client-side usage
+import { useSession } from 'next-auth/react';
+
+export const useClientSideUser = () => {
+    const { data: session } = useSession();
+    const username = session?.user?.name || 'Error';
+    return { username };
+};

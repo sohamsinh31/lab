@@ -30,32 +30,37 @@ const Login: React.FC = () => {
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        signIn("credentials", {
+            username: username,
+            password: password
+        });
+
         // Clear previous messages
-        setError(null);
-        setSuccess(false);
+        // setError(null);
+        // setSuccess(false);
 
-        // Set credentials in JLogin
-        JLogin.setCredentials(username, password);
+        // // Set credentials in JLogin
+        // JLogin.setCredentials(username, password);
 
-        // Create a new instance of JLogin and process login request
-        const loginInstance = new JLogin();
-        try {
-            await loginInstance.processRequest();
+        // // Create a new instance of JLogin and process login request
+        // const loginInstance = new JLogin();
+        // try {
+        //     await loginInstance.processRequest();
 
-            // If there's an error in the response, set the error state.
-            if (loginInstance.error.state == false) {
-                setSuccess(true);
-                router.push('/');
+        //     // If there's an error in the response, set the error state.
+        //     if (loginInstance.error.state == false) {
+        //         setSuccess(true);
+        //         router.push('/');
 
-            } else {
-                setError(loginInstance.error.message);
-            }
-        } catch (err) {
-            // Handle any unexpected errors
-            if (!success) {
-                setError('An error occurred during login.');
-            }
-        }
+        //     } else {
+        //         setError(loginInstance.error.message);
+        //     }
+        // } catch (err) {
+        //     // Handle any unexpected errors
+        //     if (!success) {
+        //         setError('An error occurred during login.');
+        //     }
+        // }
     };
 
 

@@ -1,6 +1,8 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { JWT } from "next-auth/jwt";
+import async from '../gmail/read';
 
 const authOptions: NextAuthOptions = {
     providers: [
@@ -11,6 +13,50 @@ const authOptions: NextAuthOptions = {
                 params: {
                     scope: "https://www.googleapis.com/auth/gmail.send email profile https://www.googleapis.com/auth/gmail.readonly",
                 },
+            },
+        }),
+        // Username and Password Login Provider
+        CredentialsProvider({
+            name: "Credentials",
+            credentials: {
+                username: { label: "Username", type: "text" },
+                password: { label: "Password", type: "password" },
+            },
+            async authorize(credentials) {
+                const { username, password } = credentials || {};
+
+                console.log(JSON.stringify({ username, password }))
+
+                try {
+                    // Send a POST request to the Java backend for verification
+                    const response = await fetch(`${process.env.NEXT_PUBLIC_JWS_URL}/api/login`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ username, password }),
+                    });
+
+                    // If the response is OK, extract user data
+                    if (response.ok) {
+                        const user = await response.json();
+                        if (user && user.token) {
+                            return {
+                                id: user.id,
+                                name: username,
+                                email: user.email,
+                                image: user.image,
+                                jwtToken: user.token, // JWT from backend
+                            };
+                        }
+                    } else {
+                        console.error("Login failed:", await response.json());
+                    }
+                } catch (error) {
+                    console.error("Error during login:", error);
+                }
+
+                return null; // Return null to indicate login failure
             },
         }),
     ],

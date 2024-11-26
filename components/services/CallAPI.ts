@@ -7,6 +7,8 @@ export const fetchData = async (url: string) => {
         const session : any = await getSession();
         const jwtoken = session?.jwtToken;
 
+        // console.log(session)
+
         const response = await fetch(url, {
             method: 'GET',
             headers: {
@@ -22,6 +24,7 @@ export const fetchData = async (url: string) => {
         }
 
         if (!response.ok) {
+            // console.log(response.text())
             const errorResponse = await response.json();
             throw new Error(errorResponse?.error);
         }

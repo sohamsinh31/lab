@@ -70,7 +70,7 @@ const ServiceRoute = () => {
     const handleAdd = async (record: any) => {
         try {
             // console.log(record)
-            await postData(`${process.env.NEXT_PUBLIC_JWS_URL}/api/services`, JSON.stringify(record));
+            await postData(`${process.env.NEXT_PUBLIC_JWS_URL}/api/services`, record);
             console.log('User record added successfully:');
             // Refresh the data after addition
             fetchS();
