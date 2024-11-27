@@ -16,6 +16,7 @@ type Service = {
     id: number;
     name: string;
     description: string;
+    imageurl: string;
 };
 
 const Navbar = ({ data }: { data: NavbarData[] }) => {
@@ -100,7 +101,10 @@ const Navbar = ({ data }: { data: NavbarData[] }) => {
                                             href={`/services/${service.id}`} // Assuming you have a service details page
                                             className="block text-white hover:text-gray-400"
                                         >
-                                            {service.name}
+                                            <div className='flex p-2'>
+                                                <img className='h-12' src={service.imageurl} />
+                                                <div className='p-2'>{service.name} <br /> {service.description} </div>
+                                            </div>
                                         </a>
                                     </li>
                                 ))}
