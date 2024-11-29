@@ -1,4 +1,4 @@
-import { getServerSideUser as sd } from "../services/CookieData";
+import { getServerSideUser as su } from "../services/CookieData";
 
 export const navbarData = [
     {
@@ -9,8 +9,8 @@ export const navbarData = [
             { label: 'Cloud Solutions', href: '/services/cloud' },
         ],
     },
-    sd ? {
-        label: sd.username, href: '#', dropdown: [
+    su ? {
+        label: su, href: '#', dropdown: [
             { label: 'Manage', href: '#' },
             { label: 'LogOut', href: '/auth/logout' },
         ]
