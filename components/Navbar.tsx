@@ -1,6 +1,8 @@
 /* eslint-disable */
 import { useEffect, useState } from 'react';
 import { fetchData } from './services/CallAPI';
+import { useSession } from "next-auth/react";
+import { useRouter } from 'next/router';
 
 // Example Navbar data type
 type NavbarData = {
@@ -23,12 +25,56 @@ const Navbar = ({ data }: { data: NavbarData[] }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState<{ [key: string]: boolean }>({});
     const [isMounted, setIsMounted] = useState(false);
-    const [foundServices, setFoundServices] = useState<Service[]>([]); // Holds services
-    const [query, setQuery] = useState(''); // Search input value
+    const [foundServices, setFoundServices] = useState<Service[]>([]);
+    const [query, setQuery] = useState('');
+    const router = useRouter();
 
     useEffect(() => {
         setIsMounted(true);
     }, []);
+
+    const { data: session, status } = useSession();
+    const su = session?.user; // Directly accessing the user object here
+
+    useEffect(() => {
+        if (status === "unauthenticated") {
+            router.push("/auth/login");
+        }
+    }, [status, router]);
+
+    if (status === "loading") {
+        return <div>Loading...</div>;
+    }
+
+    // Dynamic mapping for user dropdown
+    const generateUserDropdown = () => {
+        if (!su) return [];
+
+        const userDropdownItems: { label: string; href: string }[] = [
+            { label: 'Manage Account', href: '/account' },
+            { label: 'LogOut', href: '/auth/logout' },
+        ];
+
+        // Dynamically add user properties to dropdown (e.g., email, roles, etc.)
+        if (su.email) {
+            userDropdownItems.push({ label: `Email: ${su.email}`, href: '#' });
+        }
+        // Return the final dropdown structure
+        return userDropdownItems;
+    };
+
+    const ldata: NavbarData = su
+        ? {
+            label: su.name, // Display the user's name
+            href: '#',
+            dropdown: generateUserDropdown(), // Dynamically generate dropdown items
+        }
+        : { label: 'Login', href: '/auth/login' };
+
+    useEffect(() => {
+        // Add dynamically created user data to the navbar data
+        data.push(ldata);
+    }, [session]);
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
@@ -98,12 +144,14 @@ const Navbar = ({ data }: { data: NavbarData[] }) => {
                                         onClick={handleServiceClick}
                                     >
                                         <a
-                                            href={`/services/${service.id}`} // Assuming you have a service details page
+                                            href={`/services/${service.id}`}
                                             className="block text-white hover:text-gray-400"
                                         >
-                                            <div className='flex p-2'>
-                                                <img className='h-12' src={service.imageurl} />
-                                                <div className='p-2'>{service.name} <br /> {service.description} </div>
+                                            <div className="flex p-2">
+                                                <img className="h-12" src={service.imageurl} />
+                                                <div className="p-2">
+                                                    {service.name} <br /> {service.description}
+                                                </div>
                                             </div>
                                         </a>
                                     </li>
@@ -169,7 +217,6 @@ const Navbar = ({ data }: { data: NavbarData[] }) => {
                                                         className="hover:bg-gray-600 p-2"
                                                     >
                                                         <a
-                                                            key={dropdownItem.label}
                                                             href={dropdownItem.href}
                                                             className="block text-white hover:text-gray-400"
                                                         >

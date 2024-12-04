@@ -1,5 +1,3 @@
-import { getServerSideUser as su } from "../services/CookieData";
-
 export const navbarData = [
     {
         label: 'Services',
@@ -9,10 +7,4 @@ export const navbarData = [
             { label: 'Cloud Solutions', href: '/services/cloud' },
         ],
     },
-    su ? {
-        label: su, href: '#', dropdown: [
-            { label: 'Manage', href: '#' },
-            { label: 'LogOut', href: '/auth/logout' },
-        ]
-    } : { label: 'Login', href: '/auth/login' },
 ];
