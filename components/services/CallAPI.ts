@@ -7,7 +7,7 @@ export const fetchData = async (url: string) => {
         const session : any = await getSession();
         const jwtoken = session?.jwtToken;
 
-        // console.log(session)
+        // console.log(session?.jwtToken)
 
         const response = await fetch(url, {
             method: 'GET',
