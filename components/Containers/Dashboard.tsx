@@ -5,10 +5,10 @@ import SCard from "../ui/Cards/SCard";
 import MemoryIcon from '@mui/icons-material/Memory';
 import ScienceIcon from '@mui/icons-material/Science';
 import WatchIcon from '@mui/icons-material/Watch';
-import { username } from "../services/CookieData";
 import PublicIcon from '@mui/icons-material/Public';
 import EmailIcon from '@mui/icons-material/Email';
 import WorkspacesIcon from '@mui/icons-material/Workspaces';
+import { useSession } from "next-auth/react";
 
 const icostyle = {
     default: {
@@ -60,7 +60,7 @@ const serviceico = [
     {
         label: "EMailer",
         description: "Keep in touch with communications.",
-        styles: { 
+        styles: {
             background: "linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)",  // Cool blue-purple gradient
             color: '#fff'  // White text for contrast
         },
@@ -70,25 +70,28 @@ const serviceico = [
     {
         label: "SRG",
         description: "Service Resource Groups.",
-        styles: { 
+        styles: {
             background: "linear-gradient(135deg, #ff8c00 0%, #ffcc66 100%)",  // Updated gradient
             color: '#333'  // Dark gray text color for better readability
         },
         icon: <WorkspacesIcon />,
         link: "/mail"
     }
-    
+
 
 ];
 
 // console.log(User.username)
 
 const Dashboard: React.FC = () => {
+
+    const { data: session } = useSession();
+
     return (
         <div className="m-4">
             <div className="grid-rows-2">
                 <div className="row-span-1">
-                    <div className="text-lg p-2">Welcome, {!username}</div>
+                    <div className="text-lg p-2">Welcome, {session?.user?.name}</div>
                 </div>
                 <div className="columns-12 grid grid-flow-col space-x-2.5 p-1">
                     <div className="col-span-6 block border-[0.1px] rounded-sm border-opacity-[0.1]">

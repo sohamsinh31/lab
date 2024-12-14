@@ -6,41 +6,37 @@ import { useState, useEffect } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
 const ServiceRoute = () => {
     const [userData, setUserData] = useState<any[]>([]);
-    // const [query, setQuery] = useState<any>('');
-
-    // console.log(query)
+    const [query, setQuery] = useState<string>('');
 
     useEffect(() => {
-        fetchS();
+        fetchServices();
     }, []);
 
-    const search = async (query: string) => {
-        let data;
+    const fetchServices = async () => {
         try {
-            if (query.trim() === '') {
-                data = await fetchData(`${process.env.NEXT_PUBLIC_JWS_URL}/api/services`);
-            } else {
-                data = await postData(`${process.env.NEXT_PUBLIC_JWS_URL}/api/services/query/`, { query: query, version: 1, language: 'English' });
-            }
+            const data = await fetchData(`${process.env.NEXT_PUBLIC_JWS_URL}/api/services`);
             setUserData(data);
         } catch (error: any) {
-            toast.error(data.error)
-            // console.error(error.message);
+            toast.error("Error fetching data");
+            console.error(error.message);
         }
     };
 
-
-    const fetchS = async () => {
-        // let data;
+    const handleSearch = async (searchQuery: string) => {
+        setQuery(searchQuery);
         try {
-            const data = await fetchData(`${process.env.NEXT_PUBLIC_JWS_URL}/api/services`);
-            console.log(data)
+            const data = searchQuery.trim()
+                ? await postData(`${process.env.NEXT_PUBLIC_JWS_URL}/api/services/query/`, {
+                    query: searchQuery,
+                    version: 1,
+                    language: 'English',
+                })
+                : await fetchData(`${process.env.NEXT_PUBLIC_JWS_URL}/api/services`);
             setUserData(data);
         } catch (error: any) {
-            toast.error(error.message);
+            toast.error("Error performing search");
             console.error(error.message);
         }
     };
@@ -48,62 +44,72 @@ const ServiceRoute = () => {
     const handleSave = async (updatedRecord: any) => {
         try {
             await putData(`${process.env.NEXT_PUBLIC_JWS_URL}/api/services/${updatedRecord.id}`, updatedRecord);
-            console.log('User record updated successfully:', updatedRecord);
+            toast.success("Record updated successfully!");
+            fetchServices();
         } catch (error: any) {
-            toast.error(error.message);
+            toast.error("Error updating record");
             console.error(error.message);
         }
     };
 
     const handleDelete = async (record: any) => {
         try {
-            await deleteData(`${process.env.NEXT_PUBLIC_JWS_URL}/api/services`, { "ID": record.id });
-            console.log('User record deleted successfully:');
-            // Refresh the data after deletion
-            fetchS();
+            await deleteData(`${process.env.NEXT_PUBLIC_JWS_URL}/api/services`, { ID: record.id });
+            toast.success("Record deleted successfully!");
+            fetchServices();
         } catch (error: any) {
-            toast.error(error.message);
+            toast.error("Error deleting record");
             console.error(error.message);
         }
     };
 
-    const handleAdd = async (record: any) => {
+    const handleAdd = async (newRecord: any) => {
         try {
-            // console.log(record)
-            await postData(`${process.env.NEXT_PUBLIC_JWS_URL}/api/services`, record);
-            console.log('User record added successfully:');
-            // Refresh the data after addition
-            fetchS();
+            await postData(`${process.env.NEXT_PUBLIC_JWS_URL}/api/services`, newRecord);
+            toast.success("Record added successfully!");
+            fetchServices();
         } catch (error: any) {
-            toast.error(error.message);
+            toast.error("Error adding record");
             console.error(error.message);
         }
     };
 
     const handleExport = () => {
-        // Add export functionality if needed
+        const dataStr = JSON.stringify(userData, null, 2);
+        const blob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'exported_data.json';
+        link.click();
     };
 
-    return <div className='flex min-w-[95vw]'>
-        <div className="m-2 p-2">
-            <div className="row m-2 p-2">
-                <h2>Client Services,</h2>
+    return (
+        <div className="flex">
+            <div className="m-2 p-1 w-full">
+                <div className="row m-2 p-1">
+                    <h2>Client Services</h2>
+                </div>
+                <div className="row m-1 p-1">
+                    <Table
+                        data={userData}
+                        fieldsConfig={{
+                            id: { type: 'hidden' },
+                            name: { type: 'text' },
+                            description: { type: 'text' },
+                            imageurl: { type: 'text' },
+                        }}
+                        onSave={handleSave}
+                        onAdd={handleAdd}
+                        onDelete={handleDelete}
+                        exportData={handleExport}
+                        search={handleSearch}
+                    />
+                </div>
             </div>
-            <div className="row m-1 p-1">
-                <Table data={userData} fieldsConfig={{
-                    "id": { type: 'hidden' },
-                    "name": { type: 'text' },
-                    "description": { type: 'text' },
-                }}
-                    onSave={handleSave}
-                    onAdd={handleAdd}
-                    onDelete={handleDelete}
-                    exportData={handleExport}
-                    search={() => undefined}
-                />
-            </div>
+            <ToastContainer />
         </div>
-    </div>
-}
+    );
+};
 
 export default ServiceRoute;

@@ -74,7 +74,7 @@ const Navbar = ({ data }: { data: NavbarData[] }) => {
     useEffect(() => {
         // Add dynamically created user data to the navbar data
         data.push(ldata);
-    }, [session]);
+    }, []);
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);

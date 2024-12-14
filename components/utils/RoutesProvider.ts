@@ -11,5 +11,6 @@ export const Routes: any = {
     "legal": LegalSubpage,
     "mail" : EmailEditor,
     "surveys": SurveyRoute,
-    "test": CourseRoute
+    "test": CourseRoute,
+    // "playground"
 };

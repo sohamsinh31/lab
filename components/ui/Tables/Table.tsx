@@ -54,15 +54,15 @@ const Table: React.FC<TableProps> = ({ data, fieldsConfig, onSave, onAdd, onDele
     };
 
     return (
-        <div className="ctable min-w-[85vw]">
+        <div className="ctable min-w-[75vw]">
             <div className="ctable-options">
                 <div>
                     <input placeholder='Search' className='ctable-options-input' onChange={(e) => search(e.target.value)} type="text" name="data" />
                 </div>
                 <div className='ctable-options-m'></div>
                 <div className='ctable-options-r'>
-                    <button className='bg-green-300 m-2 p-2 text-black rounded-md' onClick={exportData} type='button'>Export</button>
-                    <button className='bg-green-300 m-2 p-2 text-black rounded-md' onClick={handleAddClick} type='button'>+ Add</button>
+                    <button className='bg-green-300 m-1 p-1 text-black' onClick={exportData} type='button'>Export</button>
+                    <button className='bg-yellow-300 m-1 p-1 text-black' onClick={handleAddClick} type='button'>+ Add</button>
                 </div>
             </div>
             <div className="ctable-header">
