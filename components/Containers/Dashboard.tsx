@@ -75,7 +75,7 @@ const serviceico = [
             color: '#333'  // Dark gray text color for better readability
         },
         icon: <WorkspacesIcon />,
-        link: "/mail"
+        link: "/srg"
     }
 
 

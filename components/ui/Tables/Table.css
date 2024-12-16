@@ -4,13 +4,21 @@
   margin-top: 20px;
   /* border-radius: 12px; */
   overflow-x: auto;
+  border-width: 1px 1px 0px 1px;
+}
+
+.ctable > table,
+th,
+td {
+  border: 1px solid white;
+  text-align: center;
 }
 
 .ctable-options {
   /* width: 100%; */
   display: flex;
   justify-content: space-between;
-  border: 1px solid white;
+  margin-bottom: 0;
 }
 
 .ctable-options-input {
@@ -26,17 +34,9 @@
   margin-left: 30%;
 }
 
-.ctable-options>button {
+.ctable-options > button {
   margin: 6px;
   padding: 6px;
-}
-
-.ctable-header,
-.ctable-row {
-  display: flex;
-  /* cursor: ; */
-  /* min-width: 500px; */
-  /* Set a minimum width to ensure the ctable has enough space for all columns */
 }
 
 .ctable-body :hover {
@@ -85,7 +85,7 @@
 }
 
 .pagination li.active {
-  background: #4CAF50;
+  background: #4caf50;
   color: #ffffff;
 }
 

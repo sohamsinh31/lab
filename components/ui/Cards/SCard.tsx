@@ -15,7 +15,7 @@ const hexToRgba = (hex: string, alpha: number) => {
 const SCard: React.FC<SCardProps> = ({ title, icon, description, linkurl }) => {
     return (
         <div
-            className="flex m-2 p-2 items-center w-[35vh] h-[70px] rounded-md bg-slate-900 space-x-1 backdrop-blur-xl shadow-sm shadow-transparent"
+            className="flex m-2 p-2 items-center w-[35vh] h-[70px] rounded-md bg-slate-900 space-x-1 backdrop-blur-xl shadow-sm shadow-transparent cursor-pointer"
         >
             <div className="flex justify-center items-center w-1/4">
                 <div>{icon}</div>
