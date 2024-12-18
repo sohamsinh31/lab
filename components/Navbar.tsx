@@ -63,7 +63,7 @@ const Navbar = ({ data }: { data: NavbarData[] }) => {
         return userDropdownItems;
     };
 
-    const ldata: NavbarData = su
+    const ldata = su
         ? {
             label: su.name, // Display the user's name
             href: '#',
