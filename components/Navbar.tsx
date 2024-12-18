@@ -63,18 +63,19 @@ const Navbar = ({ data }: { data: NavbarData[] }) => {
         return userDropdownItems;
     };
 
-    const ldata = su
+    const ldata: NavbarData = su
         ? {
-            label: su.name, // Display the user's name
+            label: su.name || 'User', // Provide a default value if su.name is null or undefined
             href: '#',
-            dropdown: generateUserDropdown(), // Dynamically generate dropdown items
+            dropdown: generateUserDropdown(),
         }
         : { label: 'Login', href: '/auth/login' };
 
+    const [navbarData, setNavbarData] = useState<NavbarData[]>(data);
+
     useEffect(() => {
-        // Add dynamically created user data to the navbar data
-        data.push(ldata);
-    }, []);
+        setNavbarData((prevData) => [...prevData, ldata]);
+    }, [ldata]);
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
