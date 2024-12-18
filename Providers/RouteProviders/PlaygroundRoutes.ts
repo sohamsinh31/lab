@@ -1,5 +1,5 @@
-import APIPlayground from "@/components/Containers/PlayGroundContainers/APIContainer";
-import PGDashboard from "@/components/Containers/PlayGroundContainers/PGDashboard";
+import APIPlayground from "@/Containers/PlayGroundContainers/APIContainer";
+import PGDashboard from "@/Containers/PlayGroundContainers/PGDashboard";
 
 export const PGRoutes: any = {
     "dashboard": PGDashboard,

@@ -1,4 +1,4 @@
-import Dashboard from "@/components/Containers/Dashboard"
+import Dashboard from "@/Containers/Dashboard"
 
 const DashboardRoute  = () => {
     return <Dashboard />
