@@ -1,8 +1,8 @@
 /* eslint-disable */
-import { useEffect, useState } from 'react';
-import { fetchData } from './services/CallAPI';
+import { useEffect, useState } from "react";
+import { fetchData } from "./services/CallAPI";
 import { useSession } from "next-auth/react";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 
 // Example Navbar data type
 type NavbarData = {
@@ -26,12 +26,8 @@ const Navbar = ({ data }: { data: NavbarData[] }) => {
     const [dropdownOpen, setDropdownOpen] = useState<{ [key: string]: boolean }>({});
     const [isMounted, setIsMounted] = useState(false);
     const [foundServices, setFoundServices] = useState<Service[]>([]);
-    const [query, setQuery] = useState('');
+    const [query, setQuery] = useState("");
     const router = useRouter();
-
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
 
     const { data: session, status } = useSession();
     const su = session?.user; // Directly accessing the user object here
@@ -42,40 +38,42 @@ const Navbar = ({ data }: { data: NavbarData[] }) => {
         }
     }, [status, router]);
 
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
     if (status === "loading") {
         return <div>Loading...</div>;
     }
 
-    // Dynamic mapping for user dropdown
+    // Generate user dropdown data
     const generateUserDropdown = () => {
         if (!su) return [];
 
         const userDropdownItems: { label: string; href: string }[] = [
-            { label: 'Manage Account', href: '/account' },
-            { label: 'LogOut', href: '/auth/logout' },
+            { label: "Manage Account", href: "/account" },
+            { label: "Logout", href: "/auth/logout" },
         ];
 
-        // Dynamically add user properties to dropdown (e.g., email, roles, etc.)
+        // Add email as a non-clickable item
         if (su.email) {
-            userDropdownItems.push({ label: `Email: ${su.email}`, href: '#' });
+            userDropdownItems.unshift({ label: `Email: ${su.email}`, href: "#" });
         }
-        // Return the final dropdown structure
+
         return userDropdownItems;
     };
 
-    const ldata: NavbarData = su
+    // Prepare user-specific navbar data
+    const userNavbarData: NavbarData = su
         ? {
-            label: su.name || 'User', // Provide a default value if su.name is null or undefined
-            href: '#',
+            label: su.name || "User", // Use "User" if su.name is undefined
+            href: "#",
             dropdown: generateUserDropdown(),
         }
-        : { label: 'Login', href: '/auth/login' };
+        : { label: "Login", href: "/auth/login" };
 
-    const [navbarData, setNavbarData] = useState<NavbarData[]>(data);
-
-    useEffect(() => {
-        setNavbarData((prevData) => [...prevData, ldata]);
-    }, [ldata]);
+    // Consolidate navbar data
+    const navbarData = [...data, userNavbarData];
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
@@ -92,7 +90,7 @@ const Navbar = ({ data }: { data: NavbarData[] }) => {
         const searchTerm = e.target.value;
         setQuery(searchTerm);
 
-        if (searchTerm.trim() === '') {
+        if (searchTerm.trim() === "") {
             setFoundServices([]); // Clear dropdown when input is empty
             return;
         }
@@ -103,14 +101,14 @@ const Navbar = ({ data }: { data: NavbarData[] }) => {
             );
             setFoundServices(services || []);
         } catch (error) {
-            console.error('Error fetching services:', error);
+            console.error("Error fetching services:", error);
             setFoundServices([]); // Reset on error
         }
     };
 
     const handleServiceClick = () => {
         setFoundServices([]); // Close dropdown when a service is clicked
-        setQuery(''); // Clear search box
+        setQuery(""); // Clear search box
     };
 
     if (!isMounted) {
@@ -162,7 +160,7 @@ const Navbar = ({ data }: { data: NavbarData[] }) => {
                     )}
                 </div>
                 <div className="hidden md:flex space-x-4">
-                    {data.map((item) => (
+                    {navbarData.map((item) => (
                         <div key={item.label} className="relative group">
                             {!item.dropdown ? (
                                 <a href={item.href} className="text-white hover:text-gray-400">
@@ -249,7 +247,7 @@ const Navbar = ({ data }: { data: NavbarData[] }) => {
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 strokeWidth={2}
-                                d={isOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16'}
+                                d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
                             />
                         </svg>
                     </button>
