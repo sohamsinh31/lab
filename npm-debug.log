@@ -1,0 +1,28 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'i', '--legacy-peer-deps' ]
+2 info using npm@3.5.2
+3 info using node@v8.10.0
+4 silly loadCurrentTree Starting
+5 silly install loadCurrentTree
+6 silly install readLocalPackageData
+7 silly install normalizeTree
+8 verbose stack TypeError: Path must be a string. Received null
+8 verbose stack     at assertPath (path.js:28:11)
+8 verbose stack     at Object.resolve (path.js:1171:7)
+8 verbose stack     at module.exports (/usr/share/npm/node_modules/realize-package-specifier/index.js:19:23)
+8 verbose stack     at markDeps (/usr/share/npm/lib/install/deps.js:90:5)
+8 verbose stack     at /usr/share/npm/node_modules/slide/lib/async-map.js:52:35
+8 verbose stack     at Array.forEach (<anonymous>)
+8 verbose stack     at /usr/share/npm/node_modules/slide/lib/async-map.js:52:11
+8 verbose stack     at Array.forEach (<anonymous>)
+8 verbose stack     at asyncMap (/usr/share/npm/node_modules/slide/lib/async-map.js:51:8)
+8 verbose stack     at Array.<anonymous> (/usr/share/npm/node_modules/slide/lib/bind-actor.js:15:8)
+9 verbose cwd /home/soham/Music/Shared/lab
+10 error Linux 5.4.0-150-generic
+11 error argv "/usr/bin/node" "/usr/bin/npm" "i" "--legacy-peer-deps"
+12 error node v8.10.0
+13 error npm  v3.5.2
+14 error Path must be a string. Received null
+15 error If you need help, you may report this error at:
+15 error     <https://github.com/npm/npm/issues>
+16 verbose exit [ 1, true ]

@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "../components/ui/Drag/Drag.css";
+
+
+* {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+option {
+  color: black;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #122235;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Geist;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
