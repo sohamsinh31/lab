@@ -1,45 +1,45 @@
 interface SCardProps {
-    title: string;
-    icon: React.ReactNode;
-    description: string;
-    linkurl: string;
+  title: string;
+  icon: React.ReactNode;
+  description: string;
+  linkurl: string;
 }
 
-const hexToRgba = (hex: string, alpha: number) => {
-    const r = parseInt(hex.slice(1, 3), 16);
-    const g = parseInt(hex.slice(3, 5), 16);
-    const b = parseInt(hex.slice(5, 7), 16);
-    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-};
-
 const SCard: React.FC<SCardProps> = ({ title, icon, description, linkurl }) => {
-    return (
-        <div
-            className="flex m-2 p-2 items-center w-[35vh] h-[70px] rounded-md bg-slate-900 space-x-1 backdrop-blur-xl shadow-sm shadow-transparent cursor-pointer"
-        >
-            <div className="flex justify-center items-center w-1/4">
-                <div>{icon}</div>
-            </div>
-            <div onClick={() => {window.location.href = linkurl}} className="w-3/4 pe-1">
-                <div className="border-b border-opacity-20 text-primary-content">
-                    <h3
-                        className="text truncate"
-                        title={title}
-                    >
-                        {title}
-                    </h3>
-                </div>
-                <div>
-                    <h6
-                        className="text-sm truncate"
-                        title={description}
-                    >
-                        {description}
-                    </h6>
-                </div>
-            </div>
+  return (
+    <div
+      className=" inline-block items-center m-2 p-4 rounded-md bg-slate-900 gap-4 
+                 backdrop-blur-xl shadow-sm shadow-transparent cursor-pointer hover:shadow-lg 
+                 transition-all duration-200 ease-in-out  w-60 overflow-hidden"
+      onClick={() => {
+        window.location.href = linkurl;
+      }}
+    >
+      {/* Icon Section */}
+
+      <div className="flex items-center gap-4">
+        <div className="flex justify-center items-center w-12 h-12 bg-gray-800 rounded-lg">
+          {icon}
         </div>
-    );
+
+        {/* Text Section */}
+        <div className="flex flex-col flex-grow min-w-0">
+          <h3
+            className="text-sm sm:text-base font-semibold text-gray-100 truncate"
+            title={title}
+          >
+            {title}
+          </h3>
+          <h6
+            className="text-xs sm:text-sm text-gray-400 truncate"
+            title={description}
+          >
+            {description}
+          </h6>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default SCard;
