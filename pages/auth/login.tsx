@@ -1,6 +1,6 @@
 "use client";
 import { JLogin } from "@/components/services/JLogin/Login.service";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { Google, Logout } from "@mui/icons-material";
@@ -14,18 +14,22 @@ const Login: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
   const router = useRouter();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
-  console.log(password);
+  // console.log(password);
 
   useEffect(() => {
-    if (session) {
-      // console.log(session);
-      router.push("/");
+    // Redirect only if the session is unauthenticated and not loading
+    if (status === "unauthenticated") {
+      router.push("/auth/login");
     }
-  }, [session]);
+  }, [status, router]);
 
-  // console.log(session);
+  // Show loading state if session is still loading
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { fetchData, postData, putData, deleteData } from "@/components/services/CallAPI";
+import { getSession } from "next-auth/react";
 
 type HistoryEntry = {
     method: string;
@@ -27,6 +28,25 @@ const APIPlayground: React.FC = () => {
             setHistory(historyData);
         } catch (err) {
             console.error("Failed to fetch history", err);
+        }
+    };
+
+    const getSessionDetails = async () => {
+        setLoading(true);
+        setError(null);
+        setResponse(null);
+
+        try {
+            const session = await getSession(); // Await the session promise
+            if (!session) {
+                setError("No active session found.");
+            } else {
+                setResponse(session);
+            }
+        } catch (err: any) {
+            setError(err.message || "Failed to fetch session.");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -146,10 +166,17 @@ const APIPlayground: React.FC = () => {
 
                 <button
                     onClick={handleAPIRequest}
-                    className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 disabled:bg-gray-400"
+                    className="px-4 py-2 m-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 disabled:bg-gray-400"
                     disabled={loading}
                 >
                     {loading ? "Sending..." : "Send Request"}
+                </button>
+                <button
+                    onClick={getSessionDetails}
+                    className="px-4 py-2 m-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 disabled:bg-gray-400"
+                    disabled={loading}
+                >
+                    {loading ? "Fetching..." : "Session"}
                 </button>
 
                 <div className="mt-4">
