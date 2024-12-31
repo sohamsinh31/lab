@@ -1,4 +1,6 @@
-import { fetchData } from "@/components/services/CallAPI";
+import Navbar from "@/components/Navbar";
+import { fetchData, postData } from "@/components/services/CallAPI";
+import { navbarData } from "@/components/utils/NavbarTestData";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -79,87 +81,104 @@ const DynamicForm: React.FC = () => {
         });
     };
 
-    const handleSubmit = () => {
-        console.log("Responses:", responses);
-        alert("Responses Submitted! Check console for output.");
+    const handleSubmit = async () => {
+        const finall = {
+            formResponse: JSON.stringify(responses),
+            formId: { id: parseInt(formid as string) },
+            email: session?.user?.email
+        }
+        const updatedResponses = {
+            ...responses,
+            email: session?.user?.email, // Add the email here
+        };
+
+        console.log("Responses:", finall);
+
+        // Post the responses to the backend
+        const dataa = await postData(`${process.env.NEXT_PUBLIC_JWS_URL}/api/form-responses`, finall)
+        if (dataa) { console.log("Hi") }
     };
 
+
     return (
-        <div className="min-h-screen text-black p-6">
-            <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-6">
-                <h1 className="text-2xl font-bold mb-4">
-                    {formData ? formData.formName : "Loading form..."}
-                </h1>
-                {formData ? (
-                    <form>
-                        {formData.formStructure.map((q) => (
-                            <div key={q.id} className="mb-6">
-                                <label className="block text-sm font-medium mb-2">
-                                    {q.question}
-                                </label>
-                                {q.type === "text" && (
-                                    <input
-                                        type="text"
-                                        className="w-full border border-gray-300 rounded px-3 py-2"
-                                        value={responses[q.id] || ""}
-                                        onChange={(e) =>
-                                            handleInputChange(q.id, e.target.value)
-                                        }
-                                    />
-                                )}
-                                {q.type === "textarea" && (
-                                    <textarea
-                                        className="w-full border border-gray-300 rounded px-3 py-2"
-                                        value={responses[q.id] || ""}
-                                        onChange={(e) =>
-                                            handleInputChange(q.id, e.target.value)
-                                        }
-                                    />
-                                )}
-                                {(q.type === "radio" || q.type === "checkbox") &&
-                                    q.options?.map((option, index) => (
-                                        <div
-                                            key={index}
-                                            className="flex items-center mb-2"
-                                        >
-                                            <input
-                                                type={q.type}
-                                                id={`q-${q.id}-opt-${index}`}
-                                                name={`q-${q.id}`}
-                                                value={option}
-                                                checked={
-                                                    q.type === "radio"
-                                                        ? responses[q.id] === option
-                                                        : responses[q.id]?.includes(option)
-                                                }
-                                                onChange={(e) =>
-                                                    q.type === "radio"
-                                                        ? handleInputChange(q.id, option)
-                                                        : handleCheckboxChange(q.id, option)
-                                                }
-                                                className="mr-2"
-                                            />
-                                            <label
-                                                htmlFor={`q-${q.id}-opt-${index}`}
-                                                className="text-sm"
+        <div>
+            <Navbar data={navbarData} />
+            <div className="min-h-screen text-black p-6">
+                <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-6">
+                    <h1 className="text-2xl font-bold mb-4">
+                        {formData ? formData.formName : "Loading form..."}
+                    </h1>
+                    {formData ? (
+                        <form>
+                            {formData.formStructure.map((q) => (
+                                <div key={q.id} className="mb-6">
+                                    <label className="block text-sm font-medium mb-2">
+                                        {q.question}
+                                    </label>
+                                    {q.type === "text" && (
+                                        <input
+                                            type="text"
+                                            className="w-full border border-gray-300 rounded px-3 py-2"
+                                            value={responses[q.id] || ""}
+                                            onChange={(e) =>
+                                                handleInputChange(q.id, e.target.value)
+                                            }
+                                        />
+                                    )}
+                                    {q.type === "textarea" && (
+                                        <textarea
+                                            className="w-full border border-gray-300 rounded px-3 py-2"
+                                            value={responses[q.id] || ""}
+                                            onChange={(e) =>
+                                                handleInputChange(q.id, e.target.value)
+                                            }
+                                        />
+                                    )}
+                                    {(q.type === "radio" || q.type === "checkbox") &&
+                                        q.options?.map((option, index) => (
+                                            <div
+                                                key={index}
+                                                className="flex items-center mb-2"
                                             >
-                                                {option}
-                                            </label>
-                                        </div>
-                                    ))}
-                            </div>
-                        ))}
-                        <button
-                            type="button"
-                            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-                            onClick={handleSubmit}
-                        >
-                            Submit
-                        </button>
-                    </form>
-                ) : (
-                    <div>Loading form data...</div>
-                )}
+                                                <input
+                                                    type={q.type}
+                                                    id={`q-${q.id}-opt-${index}`}
+                                                    name={`q-${q.id}`}
+                                                    value={option}
+                                                    checked={
+                                                        q.type === "radio"
+                                                            ? responses[q.id] === option
+                                                            : responses[q.id]?.includes(option)
+                                                    }
+                                                    onChange={(e) =>
+                                                        q.type === "radio"
+                                                            ? handleInputChange(q.id, option)
+                                                            : handleCheckboxChange(q.id, option)
+                                                    }
+                                                    className="mr-2"
+                                                />
+                                                <label
+                                                    htmlFor={`q-${q.id}-opt-${index}`}
+                                                    className="text-sm"
+                                                >
+                                                    {option}
+                                                </label>
+                                            </div>
+                                        ))}
+                                </div>
+                            ))}
+                            <button
+                                type="button"
+                                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                                onClick={handleSubmit}
+                            >
+                                Submit
+                            </button>
+                        </form>
+                    ) : (
+                        <div>Loading form data...</div>
+                    )}
+                </div>
             </div>
         </div>
     );
